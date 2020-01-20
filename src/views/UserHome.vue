@@ -66,3 +66,22 @@ export default {
   padding: 5px; */
 }
 </style>
+
+</style>
+=======
+  <div class="home">
+    <img alt="Vue logo" src="../assets/logo.png">
+    <Kumar />
+  </div>
+</template>
+
+<script>
+// @ is an alias to /src
+
+export default {
+  name: 'home',
+  components: {
+  }
+}
+</script>
+

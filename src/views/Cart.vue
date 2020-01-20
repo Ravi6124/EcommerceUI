@@ -1,6 +1,7 @@
 <template>
   <main class="cart">
       this is cart page...
+
   </main>
 </template>
 
@@ -10,5 +11,4 @@ export default {
 }
 </script>
 
-<style scoped>
 </style>

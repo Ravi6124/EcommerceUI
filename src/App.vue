@@ -33,4 +33,3 @@ body {
 main {
   min-height: calc(90vh - 60px);
 }
-</style>
