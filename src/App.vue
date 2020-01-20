@@ -9,6 +9,7 @@
 <script>
 import Footer from '@/components/App/Footer'
 import Navbar from '@/components/App/Navbar'
+
 export default {
   name: 'App',
   components: {
@@ -31,4 +32,3 @@ body {
 main {
   min-height: calc(90vh - 80px);
 }
-</style>
