@@ -1,14 +1,16 @@
 <template>
   <div id="app">
-    <Navbar/>
-    <router-view/>
-    <Footer />
+      <Navbar/>
+      <hr>
+      <router-view/>
+      <Footer/>
   </div>
 </template>
 
 <script>
 import Footer from '@/components/App/Footer'
 import Navbar from '@/components/App/Navbar'
+
 export default {
   name: 'App',
   components: {
@@ -29,6 +31,6 @@ body {
   color: #2c3e50;
 }
 main {
-  min-height: calc(90vh - 80px);
+  min-height: calc(90vh - 60px);
 }
 </style>

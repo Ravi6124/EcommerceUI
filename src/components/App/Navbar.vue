@@ -1,8 +1,18 @@
 <template>
   <nav id="nav" class="navbar">
+    <div>
       <router-link to="/">Home</router-link>
+    </div>
+    <div>
+      Search Bar
+    </div>
+    <div>
+      <router-link to="/Cart">Cart</router-link>
+    </div>
+    <div>
       <router-link to="/Login">Login</router-link>
-    </nav>
+    </div> 
+  </nav>
 </template>
 
 <script>
@@ -13,7 +23,29 @@ export default {
 
 <style scoped>
 .navbar {
-  background-color: dodgerblue;
-  min-height: 80px;
+  background-color: white;
+  opacity: 0.5;
+  min-height: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
+
+.navbar > div {
+  background-color: grey;
+  /* opacity: 0.2; */
+  margin: 10px;
+  margin-top:15px;
+  text-align: center;
+  width: 100px;
+  border: 1px;
+  border-radius: 10px;
+  line-height: 35px;
+}
+/* .navbar > div > a{
+  text-decoration: none;
+  color: black;
+  opacity: 1;
+} */
+
 </style>

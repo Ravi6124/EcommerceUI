@@ -13,6 +13,7 @@ export default {
 <style scoped>
 .footer {
   min-height: 10vh;
+  text-decoration-color: white;
   background-color: grey;
 }
 </style>
