@@ -7,18 +7,13 @@
     <br>
     <div class="box">
       <!-- <img src="signuplogo.jpeg" width="60px" height="60px" > -->
-      <table>
-
-      </table>
-      <label>Email</label>
-      <input type="text" placeholder="Enter name" ><br><br>
-      <label>Password</label>
-      <input type="password" placeholder="Enter password"><br><br>
-      <div class="user_radios">
-        <input type="radio" name="user" value="M">Merchant
-        <input type="radio" name="user" value="C">Customer
-        <!-- <input type="radio" name="user">User<br><br> -->
-      </div>
+      <label>Email</label> <br>
+      <input type="email" name="email"> <br><br>
+      <label>Password</label> <br>
+      <input type="password" name="password"> <br><br>
+      <input type="radio" name="user" value="M">Merchant
+      <input type="radio" name="user" value="C">Customer
+      <br> <br>
       <button>Sign In</button><br><br>
       Not a user?<a href="#">SignUp</a><br>
       <a href="#">Forgot your Password</a>
@@ -47,7 +42,7 @@ export default {
   h1{
     text-decoration: underline;
   }
-  input[type="text"]{
+  input[type="email"]{
     width: 250px;
     height:25px;
   }
@@ -69,6 +64,7 @@ export default {
     padding-bottom: 40px;
     padding-top: 10px;
     margin-top: 0%;
+    margin-bottom: .9%;
     margin-right: 33%;
     margin-left: 33%;
     background-color:palegoldenrod;
