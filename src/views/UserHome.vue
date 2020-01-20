@@ -1,4 +1,19 @@
 <template>
+  <main class="userhome">
+      this is user home..
+  </main>
+</template>
+
+<script>
+export default {
+    name: 'UserHome'
+}
+</script>
+
+<style scoped>
+
+</style>
+=======
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
     <Kumar />
@@ -14,3 +29,4 @@ export default {
   }
 }
 </script>
+
