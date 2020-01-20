@@ -25,22 +25,22 @@ export default {
 .navbar {
   background-color: white;
   opacity: 0.5;
-  min-height: 50px;
+  min-height: 30px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 }
 
 .navbar > div {
-  background-color: grey;
+  background-color: white;
   /* opacity: 0.2; */
-  margin: 10px;
+  margin: 5px;
   margin-top:15px;
   text-align: center;
   width: 100px;
   border: 1px;
   border-radius: 10px;
-  line-height: 35px;
+  line-height: 20px;
 }
 /* .navbar > div > a{
   text-decoration: none;

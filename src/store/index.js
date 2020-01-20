@@ -14,7 +14,7 @@ export default new Vuex.Store({
   },
   actions: {
     getCategories(context){
-      fetch('http://localhost:3000/myData')
+      fetch('http://localhost:3000/myData')//use api getAllCategories()
       .then(res => res.json())
       .then(res => {
         context.commit('GET_CATEGORIES', res);

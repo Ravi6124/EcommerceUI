@@ -2,7 +2,7 @@
   <main class="userhome">
       <!-- <button @click="getProduct()"></button> -->
       <div v-for="product in abc" v-bind:key="product" class="container">
-        <router-link to="/Category"><img :src="product.imgae_url" alt="no image"/>
+        <router-link to="/Category"><img :src="product.imageURL" alt="no image"/>
         <div class="textblock"> 
           <h1>{{product.name}}</h1>
         </div>

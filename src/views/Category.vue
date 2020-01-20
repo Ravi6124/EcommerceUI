@@ -1,5 +1,8 @@
 <template>
   <main class="category">
+    <div>
+      
+    </div>
       this is category page..
   </main>
 </template>
