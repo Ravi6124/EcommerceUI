@@ -7,9 +7,7 @@
     <br>
     <div class="box">
       <!-- <img src="signuplogo.jpeg" width="60px" height="60px" > -->
-      <table>
-
-      </table>
+      
       <label>Email</label>
       <input type="text" placeholder="Enter name" ><br><br>
       <label>Password</label>
@@ -20,7 +18,7 @@
         <!-- <input type="radio" name="user">User<br><br> -->
       </div>
       <button>Sign In</button><br><br>
-      Not a user?<a href="#">SignUp</a><br>
+      Not a user ?<a href="#">SignUp</a><br>
       <a href="#">Forgot your Password</a>
       <br><br>
       <a href="#" class="fa fa-facebook"></a>

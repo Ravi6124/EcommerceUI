@@ -1,9 +1,18 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <Kumar />
-  </div>
+  <main class="userhome">
+      this is user home..
+  </main>
 </template>
+
+<script>
+export default {
+    name: 'UserHome'
+}
+</script>
+
+<style scoped>
+
+</style>
 
 <script>
 // @ is an alias to /src
@@ -14,3 +23,4 @@ export default {
   }
 }
 </script>
+
