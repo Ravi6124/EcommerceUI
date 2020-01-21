@@ -1,6 +1,11 @@
 <template>
   <main class="merchanthome">
-      this is merchant home..
+    <div class="sidenav">
+      <a href="#">Add Product</a>
+      <a href="#">Update Product Details</a>
+      <a href="#">Order</a>
+      <a href="#">View</a>
+    </div>
   </main>
 </template>
 

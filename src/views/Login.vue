@@ -56,7 +56,7 @@ export default {
     height:25px;
   }
   input[type="radio"]{
-    padding-right: 10px;
+    margin-right: 10px;
   }
   .heading{
     text-align: center;
