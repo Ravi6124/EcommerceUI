@@ -1,41 +1,33 @@
 <template>
   <main class="userhome">
-    <!-- <button @click="getProduct()"></button> -->
     <div v-for="categories in abc" v-bind:key="categories.categoryId" class="container" @click="passingCid(categories.categoryId)">
-      <!-- <router-link to="/Category"> -->
+      <div class="category__image">
         <img :src="categories.imageURL" alt="no image" />
-        <div class="textblock">
-          <h1>{{categories.name}}</h1>
-        </div>
-      <!-- </router-link> -->
+      </div>
+      <div class="textblock">
+        <h1>{{categories.name}}</h1>
+      </div>
     </div>
   </main>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-// import axios from 'axios'
 export default {
   name: "UserHome",
   categories: [],
   computed: {
     ...mapGetters(["categoriesGetter"]),
     abc() {
-      return this.categoriesGetter.categories;
+      return this.categoriesGetter;
     }
   },
   created() {
-    //this.getCategories();
     this.$store.dispatch('getCategories');
   },
   methods: {
     passingCid(cid) {
-      // window.console.log(cid),
       this.$router.push({ name: 'category', params: {cid}})
-      // },
-      // getProduct() {
-      //   window.console.log(this.$store.getters.categoriesGetter)
-      // }
     }
   }
 };
@@ -60,7 +52,7 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  opacity: 0.7;
+  opacity: 0.9;
   color: black;
   /* position: absolute;
   bottom: 20px;
@@ -68,5 +60,14 @@ export default {
   background-color: black;
   color: white;
   padding: 5px; */
+}
+.category__image {
+  height: 200px;
+  width: 300px;
+  opacity: 0.7;
+}
+.category__image > img {
+  height: 100%;
+  width: 100%;
 }
 </style>

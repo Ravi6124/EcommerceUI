@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    categories: {},
+    categories: [],
     products: {}
   },
   mutations: {
@@ -22,18 +22,14 @@ export default new Vuex.Store({
       Axios
       .get('http://172.16.20.119:8081/product/category')
       .then(res => {
-        window.console.log(res),
         commit('GET_CATEGORIES', res.data)
       })
-      // fetch('http://localhost:3000/myData')//use api getAllCategories()
-      // .then(res => res.json())
-      // .then(res => {
-      //   context.commit('GET_CATEGORIES', res);
-      // })
     },
-    getProductsByCategory({commit}){
+    getProductsByCategory({commit}, cid, pageNum=0){
+      // let catId = cid;
+      window.console.log("category ID:", cid);
       Axios
-      .get('http://localhost:3000/myProducts')
+      .get('http://172.16.20.119:8082/productapi/product/category/'+cid+'/' + pageNum + '/10')
       .then(res => {
         window.console.log(res),
         commit('GET_PRODUCTSBYCATEGORY', res.data)
