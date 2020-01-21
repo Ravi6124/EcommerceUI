@@ -1,42 +1,44 @@
 <template>
   <main class="userhome">
-      <!-- <button @click="getProduct()"></button> -->
-      <div v-for="product in abc" v-bind:key="product" class="container">
-        <router-link to="/Category"><img :src="product.imageURL" alt="no image"/>
-        <div class="textblock"> 
-          <h1>{{product.name}}</h1>
+    <!-- <button @click="getProduct()"></button> -->
+    <div v-for="categories in abc" v-bind:key="categories.categoryId" class="container" @click="passingCid(categories.categoryId)">
+      <!-- <router-link to="/Category"> -->
+        <img :src="categories.imageURL" alt="no image" />
+        <div class="textblock">
+          <h1>{{categories.name}}</h1>
         </div>
-        </router-link>
-      </div>
+      <!-- </router-link> -->
+    </div>
   </main>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from "vuex";
 // import axios from 'axios'
 export default {
-    name: 'UserHome',
-    product: [],
-    computed : {
-      ...mapGetters(['categoriesGetter']),
-      abc() {
-        return this.categoriesGetter.categories
-      }
-    },
-    created () {
-      //this.getCategories();
-      this.$store.dispatch('getCategories')
-    },
-    methods: {
-      getCategories() {
-        
-
+  name: "UserHome",
+  categories: [],
+  computed: {
+    ...mapGetters(["categoriesGetter"]),
+    abc() {
+      return this.categoriesGetter.categories;
+    }
+  },
+  created() {
+    //this.getCategories();
+    this.$store.dispatch('getCategories');
+  },
+  methods: {
+    passingCid(cid) {
+      // window.console.log(cid),
+      this.$router.push({ name: 'category', params: {cid}})
       // },
       // getProduct() {
       //   window.console.log(this.$store.getters.categoriesGetter)
       // }
-    }}
-}
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -47,11 +49,13 @@ export default {
   margin: 50px;
 }
 .userhome > div {
+  margin: 20px;
+  line-height: 75px;
 }
-.container{
+.container {
   position: relative;
 }
-.textblock{
+.textblock {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -66,22 +70,3 @@ export default {
   padding: 5px; */
 }
 </style>
-
-</style>
-=======
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <Kumar />
-  </div>
-</template>
-
-<script>
-// @ is an alias to /src
-
-export default {
-  name: 'home',
-  components: {
-  }
-}
-</script>
-
