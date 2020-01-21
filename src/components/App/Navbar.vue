@@ -1,16 +1,16 @@
 <template>
   <nav id="nav" class="navbar">
     <div>
-      <router-link to="/">Home</router-link>
+      <router-link to="/"><button class="button">Home</button></router-link>
     </div>
     <div>
       Search Bar
     </div>
     <div>
-      <router-link to="/Cart">Cart</router-link>
+      <router-link to="/Cart"><button class="button">Cart</button></router-link>
     </div>
     <div>
-      <router-link to="/Login">Login</router-link>
+      <router-link to="/Login"><button class="button">Login</button></router-link>
     </div> 
   </nav>
 </template>
@@ -24,28 +24,37 @@ export default {
 <style scoped>
 .navbar {
   background-color: white;
-  opacity: 0.5;
-  min-height: 30px;
+  /* opacity: 0.5; */
+  min-height: 50px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 }
 
-.navbar > div {
+.button{
   background-color: white;
-  /* opacity: 0.2; */
-  margin: 5px;
-  margin-top:15px;
+  height: 40px;
+  width: 100%;
+  border: 1px solid;
+  color: black;
+  text-align: center;
+  font-size: 20px;
+  border-radius: 5px;
+  margin-top: 5px;
+  /* box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19); */
+  -webkit-transition-duration: 1s; /* Safari */
+  transition-duration: 1s;
+  outline: none;
+  cursor: pointer;
+}
+
+.button:hover{
+  background-color: black;
+  color: white;
+}
+
+.navbar > div {
   text-align: center;
   width: 100px;
-  border: 1px;
-  border-radius: 10px;
-  line-height: 20px;
 }
-/* .navbar > div > a{
-  text-decoration: none;
-  color: black;
-  opacity: 1;
-} */
-
 </style>

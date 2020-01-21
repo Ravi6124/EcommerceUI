@@ -46,6 +46,7 @@ export default {
 }
 .container {
   position: relative;
+  cursor: pointer;
 }
 .textblock {
   position: absolute;
@@ -65,9 +66,18 @@ export default {
   height: 200px;
   width: 300px;
   opacity: 0.7;
+  -webkit-transition-duration: 0.8s; /* Safari */
+  transition-duration: 0.8s;
 }
 .category__image > img {
   height: 100%;
   width: 100%;
+}
+
+.container{
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.category__image:hover{
+  opacity: 1;
 }
 </style>

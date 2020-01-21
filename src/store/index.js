@@ -7,31 +7,36 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     categories: [],
-    products: {}
+    products: []
   },
   mutations: {
     GET_CATEGORIES(state, value){
       state.categories = value
     },
     GET_PRODUCTSBYCATEGORY(state,value){
+      // window.console.log('response data: '+value)
+      // let index = state.products.findIndex((productId) => productId == value.productId)
+      // window.console.log('index of products is:'+index)
+      //   if (index == -1) 
+      //       state.products = value;
+      //   else 
+      //       state.products[index] = value
       state.products = value
     }
   },
   actions: {
     getCategories({commit}){
       Axios
-      .get('http://172.16.20.119:8081/product/category')
+      .get('http://172.16.20.119:8082/productapi/product/category')
       .then(res => {
         commit('GET_CATEGORIES', res.data)
       })
     },
-    getProductsByCategory({commit}, cid, pageNum=0){
-      // let catId = cid;
-      window.console.log("category ID:", cid);
+    getProductsByCategory({commit}, {params} = {}){
+      window.console.log("PageNumber:", params.pageNum);
       Axios
-      .get('http://172.16.20.119:8082/productapi/product/category/'+cid+'/' + pageNum + '/10')
+      .get('http://172.16.20.119:8082/productapi/product/category/' + params.cid + '/' + params.pageNum + '/10')
       .then(res => {
-        window.console.log(res),
         commit('GET_PRODUCTSBYCATEGORY', res.data)
       })
     }
