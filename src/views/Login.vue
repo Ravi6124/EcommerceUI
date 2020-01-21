@@ -15,8 +15,8 @@
       </div>
       
       <div class="user_type">
-        <input type="radio" name="user" value="M">Merchant
         <input type="radio" name="user" value="C">Customer
+        <input type="radio" name="user" value="M">Merchant
       </div>
       <br>
       <button>Sign In</button><br><br>
@@ -31,7 +31,8 @@
 
 <script>
 export default {
-    name: 'Login'
+    name: 'Login',
+    
 }
 </script>
 
