@@ -1,32 +1,31 @@
 <template>
   <main class="login">
     <br>
-    <div class="heading">
-      Login
-    </div>
+    <h1>Login</h1>
     <br>
-    <div class="box">
-      <!-- <img src="signuplogo.jpeg" width="60px" height="60px" > -->
-      <table>
-
-      </table>
-      <label>Email</label>
-      <input type="text" placeholder="Enter name" ><br><br>
-      <label>Password</label>
-      <input type="password" placeholder="Enter password"><br><br>
-      <div class="user_radios">
+    <form action="">
+      <div>
+        <span>Email</span> <br>
+        <input type="text" name="email"><br><br>
+      </div>
+      
+      <div>
+        <span>Password</span> <br>
+        <input type="password" name="password"><br><br>
+      </div>
+      
+      <div class="user_type">
         <input type="radio" name="user" value="M">Merchant
         <input type="radio" name="user" value="C">Customer
-        <!-- <input type="radio" name="user">User<br><br> -->
       </div>
+      <br>
       <button>Sign In</button><br><br>
       Not a user?<a href="#">SignUp</a><br>
       <a href="#">Forgot your Password</a>
       <br><br>
       <a href="#" class="fa fa-facebook"></a>
       <a href="#" class="fa fa-google"></a>
-    </div>
-    <br><br>
+    </form>
   </main>
 </template>
 
@@ -45,7 +44,7 @@ export default {
     background-size: 100%;
   }
   h1{
-    text-decoration: underline;
+    text-align: center;
   }
   input[type="text"]{
     width: 250px;
@@ -62,7 +61,7 @@ export default {
     text-align: center;
     font-size: 2.5em;
   }
-  .box{
+  form{
     text-align: center;
     border: 2px solid black;
     border-radius: 15px 50px;

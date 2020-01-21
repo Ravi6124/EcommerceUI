@@ -11,7 +11,6 @@ export default {
 
 <style scoped>
 .navbar {
-  background-color: dodgerblue;
-  min-height: 80px;
+  min-height: 60px;
 }
 </style>
