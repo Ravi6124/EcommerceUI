@@ -20,9 +20,8 @@
         <strong>Price:</strong ><span>{{item.price}}</span><br><br>
         <strong>Description:</strong ><span>{{item.description}}</span><br><br>
         <!-- <select><option> Merchant</option></select> -->
-     <button>ADD TO CART</button>
-     <button>BUY NOW</button>
-     
+     <button id="cart">ADD TO CART</button>
+     <button id="buynow">BUY NOW</button>   
     </div>
     <div>
       <hr>
@@ -76,7 +75,7 @@ export default {
   background-color: antiquewhite;
    align-self: auto;;
   border: 3px solid black;
-  width: 100%
+  width: 100%;
 }
 .ab{
   display: flex;
@@ -84,16 +83,21 @@ export default {
 }
 img{
   border:3px solid black;
-  margin: 20%;
-  height: 200PX;
-  width:300px;
+  margin: 10%;
+  height: 400px;
+  width:400px;
   padding: 5px;
   
 }
 button{
   font-size: 20px;
-  background-color:cornsilk;
   margin-right: 10px;
+}
+#cart{
+background-color: orange;
+}
+#buynow{
+  background-color: yellowgreen
 }
 h1{
   text-align: center;
@@ -120,7 +124,7 @@ th{background-color: rgb(150, 146, 146);}
   overflow-y:auto;
   display:block; 
   height:150px ;border:1px solid black;
-  margin-bottom: 10px;
+  margin-bottom: ;
 }
 .right{
   margin-top:30px;
