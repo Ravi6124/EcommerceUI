@@ -1,7 +1,6 @@
 <template>
   <main class="signup">
-    <br><h1>Create Account</h1><br>
-
+    <h1>Create Account</h1>
     <form action="" name="signup">
       <div class="form-input form__email">
         <span class="label-text">Email</span> <br>
@@ -28,8 +27,9 @@
       </div>
       <button class="myBtn" :class="{'disabled': disableBtn}" @click.prevent="postUserData()">SignUp</button>
       <br><br>
-    </form>
-    
+    </form><br>
+    <div class="created">{{ created }}</div>
+    <div class="error">{{ error }}</div>
   </main>
 </template>
 
@@ -43,13 +43,16 @@ export default {
       email: '',
       password: '',
       cpwd: '',
-      userType: 'C'
+      userType: 'C',
+      created: '',
+      error: ''
     }
   },
   methods: {
     postUserData() {
       if (this.password != this.cpwd){
-        alert("Passwords do not match!!");
+        this.error = 'Passwords do not match!!'
+        this.created = ''
         return false;
       }
       const email = this.email;
@@ -66,6 +69,8 @@ export default {
           window.console.log("res: ", res);
           return res;
         });
+      this.created = 'Account Created Successfully';
+      this.error = ''
       }
   }
 }
@@ -106,12 +111,20 @@ export default {
     background:rgba(255,255,255,0.5);
   }
   .form-input {
-    width: 80%;
+    width: 70%;
     margin: 0 auto;
     text-align: left;
   }
   .label-text {
     font-weight: bold;
+  }
+  .created {
+    text-align: center;
+    color: darkgreen;
+  }
+  .error {
+    text-align: center;
+    color: red;
   }
 </style>
 

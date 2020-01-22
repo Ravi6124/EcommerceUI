@@ -2,14 +2,13 @@
   <main class="login">
     <h1>Login</h1>
     <form action="">
-      <div>
-        <br>
-        <span>Email</span> <br>
+      <div class="form-input email"><br>
+        <label class="label-text">Email</label> <br>
         <input type="email" name="email"><br><br>
       </div>
       
-      <div>
-        <span>Password</span> <br>
+      <div class="form-input password">
+        <label class="label-text">Password</label> <br>
         <input type="password" name="password"><br><br>
       </div>
       
@@ -20,15 +19,15 @@
         <label>
           <input type="radio" name="user" value="M">Merchant
         </label>
-      </div> <br>
-      
-      <button class="myBtn" :class="{'disabled': disableBtn}">Sign In</button><br><br>
+      </div><br>
+      <button class="myBtn" :class="{'disabled': disableBtn}" @click="login()">Sign In</button><br><br>
       Not a user?<a href="/signup">SignUp</a><br>
       <a href="/forgot">Forgot your Password?</a>
       <br><br>
       <a href="#" class="fa fa-facebook"></a>
       <a href="#" class="fa fa-google"></a>
     </form>
+    <div class="successful">{{ msg }}</div>
   </main>
 </template>
 
@@ -36,12 +35,18 @@
 export default {
     name: 'Login',
     data: function(){
-    return {
-      items: [],
-      disableBtn: false
+      return {
+        items: [],
+        disableBtn: false,
+        msg: ''
+      }
+    },
+    methods: {
+      login() {
+        
+      }
     }
   }
-}
 </script>
 
 <style scoped>
@@ -53,13 +58,9 @@ export default {
   h1{
     text-align: center;
   }
-  input[type="email"]{
-    width: 250px;
-    height:25px;
-  }
-  input[type="password"]{
-    width: 250px;
-    height:25px;
+  input[type="email"], input[type="password"] {
+   width: 100%; 
+   height: 25px;
   }
   input[type="radio"]{
     margin-right: 10px;
@@ -81,6 +82,18 @@ export default {
     background-color:palegoldenrod;
     background:rgba(255,255,255,0.5);
     position: relative;
+  }
+  .form-input {
+    width: 70%;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .label-text {
+    font-weight: bold;
+  }
+  .successful {
+    text-align: center;
+    color: darkgreen;
   }
   .fa {
     padding: 20px;

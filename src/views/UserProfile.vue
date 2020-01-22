@@ -2,7 +2,7 @@
   <main class="userprofile">
     <h1>Profile</h1>
     <div class="user" v-for="i in info" v-bind:key="i">
-      {{ i.img }} <br>
+      <img :src="i.img" alt="profile picture" height="160" width="160"> <br><br>
       Name: {{ i.firstName }}{{ i.lastName }} <br>
       Email: {{ i.email }} <br>
       Contact Number: {{ i.contactNumber }} <br>
