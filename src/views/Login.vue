@@ -1,12 +1,11 @@
 <template>
   <main class="login">
-    <br>
     <h1>Login</h1>
-    <br>
     <form action="">
       <div>
+        <br>
         <span>Email</span> <br>
-        <input type="text" name="email"><br><br>
+        <input type="email" name="email"><br><br>
       </div>
       
       <div>
@@ -15,13 +14,17 @@
       </div>
       
       <div class="user_type">
-        <input type="radio" name="user" value="C">Customer
-        <input type="radio" name="user" value="M">Merchant
-      </div>
-      <br>
-      <button>Sign In</button><br><br>
-      Not a user?<a href="#">SignUp</a><br>
-      <a href="#">Forgot your Password</a>
+        <label>
+          <input type="radio" name="user" value="C" checked>Customer
+        </label>
+        <label>
+          <input type="radio" name="user" value="M">Merchant
+        </label>
+      </div> <br>
+      
+      <button class="myBtn" :class="{'disabled': disableBtn}">Sign In</button><br><br>
+      Not a user?<a href="/signup">SignUp</a><br>
+      <a href="/forgot">Forgot your Password?</a>
       <br><br>
       <a href="#" class="fa fa-facebook"></a>
       <a href="#" class="fa fa-google"></a>
@@ -32,22 +35,25 @@
 <script>
 export default {
     name: 'Login',
-    
+    data: function(){
+    return {
+      items: [],
+      disableBtn: false
+    }
+  }
 }
 </script>
 
 <style scoped>
-  body{
-    margin: 0%;
-    padding: 0%;
-    /* background-image: url(mainimg.jpeg); */
-    background-repeat: no-repeat;
-    background-size: 100%;
+  label{
+    padding-right: 25px;
+    padding-left: 0px;
+    cursor: pointer;
   }
   h1{
     text-align: center;
   }
-  input[type="text"]{
+  input[type="email"]{
     width: 250px;
     height:25px;
   }
@@ -65,10 +71,11 @@ export default {
   form{
     text-align: center;
     border: 2px solid black;
-    border-radius: 15px 50px;
+    border-radius: 15px;
     padding-bottom: 40px;
     padding-top: 10px;
     margin-top: 0%;
+    margin-bottom: .9%;
     margin-right: 33%;
     margin-left: 33%;
     background-color:palegoldenrod;

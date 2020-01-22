@@ -1,60 +1,102 @@
 <template>
   <main class="signup">
-    <br>
-    <h1>Create Account</h1>
-    <br>
+    <br><h1>Create Account</h1><br>
+
     <form action="" name="signup">
       <div class="form__email">
         <span>Email</span> <br>
-        <input type="Email" name="email"> <br> <br>
+        <input type="email" name="email" v-model="email" required> <br><br>
       </div>
 
-      <div class="password">
+      <div class="form__password">
         Password<br>
-        <input type="password" name="password"> <br> <br>
+        <input type="password" name="password" v-model="password" required> <br><br>
       </div>
 
-      <div class="confirm_pass">
+      <div class="form__confirm">
         <span>Confirm Password</span> <br>
-        <input type="password" name="confirm_password"> <br><br>
+        <input type="password" name="confirm_password" v-model="cpwd" required> <br><br>
       </div>
 
-      <div class="user_type">
-        <input type="radio" name="user" value="C">Customer
-        <input type="radio" name="user" value="M">Merchant <br><br>
+      <div class="form__usertype">
+        <label>
+          <input type="radio" name="user" value="C" checked>Customer
+        </label>
+        <label>
+          <input type="radio" name="user" value="M">Merchant <br><br>
+        </label>
       </div>
-      <button>Sign Up</button>
+      <button class="myBtn" :class="{'disabled': disableBtn}" @click="postUserData($event)">SignUp</button>
+      <br><br>
     </form>
     
   </main>
 </template>
 
 <script>
+const axios = require('axios');
 export default {
-    name: 'SignUp'
+  name: 'SignUp',
+  data: function(){
+    return {
+      items: [],
+      email: '',
+      password: '',
+      cpwd: '',
+      userType: 'C'
+    }
+  },
+  methods: {
+    postUserData(e) {
+      if (this.password != this.cpwd){
+        alert("Passwords do not match!!");
+        return false;
+      }
+      e.preventDefault();
+      const email = this.email;
+      const password = this.password;
+      const userType = this.userType;
+
+      const data = {
+        email,
+        password,
+        userType
+      };
+      axios.post('https://jsonplaceholder.typicode.com/posts', data)
+        .then(res => {
+          window.console.log("res: ", res);
+          return res;
+        });
+      }
+  }
 }
+
 </script>
 
 <style scoped>
-  body{
+  label {
+    padding-right: 25px;
+    padding-left: 0px;
+    cursor: pointer;
+  }
+  body {
     margin: 0%;
     padding: 0%;
-    /* background-image: url(../assets/mainimg.jpeg); */
     background-repeat: no-repeat;
     background-size: 100%;
   }
-  h1{
+  h1 {
     text-align: center;
   }
-  input[type="email"]{
+  input[type="email"] {
     width: 250px;
     height:25px;
   }
-  input[type="password"]{
+  input[type="password"] {
     width: 250px;
     height:25px;
   }
-  form{
+  form {
     text-align: center;
     position: relative;
     border: 2px solid black;
@@ -69,3 +111,4 @@ export default {
     background:rgba(255,255,255,0.5);
   }
 </style>
+

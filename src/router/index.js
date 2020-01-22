@@ -97,6 +97,11 @@ const routes = [
     path: '*',
     name: 'error',
     component: () => import('../views/Error.vue')
+  },
+  {
+    path: '/forgot',
+    name: 'forgot',
+    component: () => import('../views/happ.vue')
   }
 ]
 

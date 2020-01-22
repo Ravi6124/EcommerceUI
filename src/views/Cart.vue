@@ -2,8 +2,6 @@
   <main class="cart">
     <h1>Cart</h1>
     <div class="cart-container">
-
-
       <div class="container">
         <div class="product" v-for="item in items" v-bind:key="item">
           <div class="image">
@@ -33,11 +31,14 @@
               </div>
         </div>
     </div>
-      <div class="checkout">
+      <div class="checkout"> <!--  use v-if="isUserLoggedIn" -->
           <div class="checkout__name"><span>User Name: </span></div>
           <div class="checkout__total"><span>Total amount: </span></div>
-          <button>Checkout</button>
-        </div>
+          <button class="myBtn" @click="checkoutProducts()">Checkout</button>
+      </div>
+      <div class="checkout"> <!--  use v-if="!isUserLoggedIn" -->
+        <button class="myBtn" :class="{'disabled': disableBtn}" @click="login()">Login</button>
+      </div>
     </div>
   </main>
 </template>
@@ -47,7 +48,16 @@ export default {
   name: 'Cart',
   data: function(){
     return {
-      items: []
+      items: [],
+      disableBtn: false
+    }
+  },
+  methods: {
+    checkoutProducts() {
+
+    },
+    login() {
+      this.$router.push('login');
     }
   },
   mounted() {
@@ -93,7 +103,7 @@ export default {
   .cart-container {
     display: flex;
     justify-content: space-between;
-    border: 1px solid seagreen;
+    border: 1px solid navy;
     padding: 10px;
   }
   .product {
@@ -102,7 +112,7 @@ export default {
     padding: 20px 10px;
   }
   .product + .product {
-    border-top: 1px solid sienna;
+    border-top: 1px solid navy;
   }
   .checkout {
     display: flex;
@@ -110,6 +120,7 @@ export default {
     justify-content: center;
     align-items: flex-start;
     width: 30%;
-    border-left: 1px solid sienna;
+    border-left: 1px solid navy;
+    padding: 0 10px;
   }
 </style>
