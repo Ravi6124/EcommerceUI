@@ -3,18 +3,18 @@
     <br><h1>Create Account</h1><br>
 
     <form action="" name="signup">
-      <div class="form__email">
-        <span>Email</span> <br>
+      <div class="form-input form__email">
+        <span class="label-text">Email</span> <br>
         <input type="email" name="email" v-model="email" required> <br><br>
       </div>
 
-      <div class="form__password">
-        Password<br>
+      <div class="form-input form__password">
+        <span class="label-text">Password</span><br>
         <input type="password" name="password" v-model="password" required> <br><br>
       </div>
 
-      <div class="form__confirm">
-        <span>Confirm Password</span> <br>
+      <div class="form-input form__confirm">
+        <span class="label-text">Confirm Password</span> <br>
         <input type="password" name="confirm_password" v-model="cpwd" required> <br><br>
       </div>
 
@@ -26,7 +26,7 @@
           <input type="radio" name="user" value="M">Merchant <br><br>
         </label>
       </div>
-      <button class="myBtn" :class="{'disabled': disableBtn}" @click="postUserData($event)">SignUp</button>
+      <button class="myBtn" :class="{'disabled': disableBtn}" @click.prevent="postUserData()">SignUp</button>
       <br><br>
     </form>
     
@@ -47,12 +47,11 @@ export default {
     }
   },
   methods: {
-    postUserData(e) {
+    postUserData() {
       if (this.password != this.cpwd){
         alert("Passwords do not match!!");
         return false;
       }
-      e.preventDefault();
       const email = this.email;
       const password = this.password;
       const userType = this.userType;
@@ -88,13 +87,9 @@ export default {
   h1 {
     text-align: center;
   }
-  input[type="email"] {
-    width: 250px;
-    height:25px;
-  }
-  input[type="password"] {
-    width: 250px;
-    height:25px;
+  input[type="email"], input[type="password"] {
+   width: 100%; 
+   height: 25px;
   }
   form {
     text-align: center;
@@ -109,6 +104,14 @@ export default {
     margin-left: 35%;
     background-color:palegoldenrod;
     background:rgba(255,255,255,0.5);
+  }
+  .form-input {
+    width: 80%;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .label-text {
+    font-weight: bold;
   }
 </style>
 
