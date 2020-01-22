@@ -69,7 +69,7 @@ const routes = [
     component: () => import('../views/MerchantUpdateProduct.vue')
   },
   {
-    path: '/productdetails',
+    path: '/productdetails/:pid',
     name: 'productdetails',
     component: () => import('../views/ProductDetails.vue')
   },

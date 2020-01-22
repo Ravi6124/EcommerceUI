@@ -5,8 +5,8 @@
         v-for="products in abc"
         v-bind:key="products.productId"
         class="onecategoryproduct"
-        @click="passingPid(products.productId)"
-      >
+        @click="passingPid(products.productId)">
+
         <fieldset>
           <div class="category__image">
             <img :src="products.imageURL" alt="no image" />
@@ -14,9 +14,10 @@
           <h3>Name: {{products.productName}}</h3>
           <h4>Price: {{products.defaultPrice}}</h4>
         </fieldset>
+
       </div>
     </div>
-    <button id="button" @click="incrementPageNumber()">View More</button>
+    <button v-if="abc.length < totalElements" id="button" @click="incrementPageNumber()">View More</button>
     <br />
     <br />
     <br />
@@ -29,13 +30,18 @@ export default {
   name: "Category",
   data: function() {
     return {
-      pageNum: 0
+      pageNum: 0,
+      length:0
     };
   },
   computed: {
-    ...mapGetters(["productsGetter"]),
+    ...mapGetters(["productsGetter","totalElementsGetter"]),
     abc() {
-      return this.productsGetter.content;
+      // window.console.log(this.productsGetter.content);
+      return this.productsGetter;
+    },
+    totalElements() {
+      return this.totalElementsGetter;
     }
   },
   created() {

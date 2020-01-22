@@ -7,21 +7,20 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     categories: [],
-    products: []
+    products: [],
+    totalElements: 0,
+    product: {}
   },
   mutations: {
     GET_CATEGORIES(state, value){
       state.categories = value
     },
-    GET_PRODUCTSBYCATEGORY(state,value){
-      // window.console.log('response data: '+value)
-      // let index = state.products.findIndex((productId) => productId == value.productId)
-      // window.console.log('index of products is:'+index)
-      //   if (index == -1) 
-      //       state.products = value;
-      //   else 
-      //       state.products[index] = value
-      state.products = value
+    GET_PRODUCTSBYCATEGORY(state, value) {
+      state.products = state.products.concat(value.content);
+      state.totalElements = value.totalElements;
+    },
+    GET_PRODUCTS(state, value){
+      state.product = value
     }
   },
   actions: {
@@ -33,11 +32,20 @@ export default new Vuex.Store({
       })
     },
     getProductsByCategory({commit}, {params} = {}){
-      window.console.log("PageNumber:", params.pageNum);
+      // window.console.log("PageNumber:", params.pageNum);
       Axios
-      .get('http://172.16.20.119:8082/productapi/product/category/' + params.cid + '/' + params.pageNum + '/10')
+      .get('http://172.16.20.119:8082/productapi/product/category/' + params.cid + '/' + params.pageNum + '/3')
       .then(res => {
+        window.console.log(res),
         commit('GET_PRODUCTSBYCATEGORY', res.data)
+      })
+    },
+    getProductDetails({commit}, {params} = {}){
+      Axios
+      .get('http://172.16.20.119:8082/productapi/product/' + params.pid)
+      .then(res => {
+        // window.console.log(res.data),
+        commit('GET_PRODUCTS', res.data)
       })
     }
   },
@@ -47,6 +55,12 @@ export default new Vuex.Store({
     },
     productsGetter(state){
       return state.products;
+    },
+    productGetter(state){
+      return state.product;
+    },
+    totalElementsGetter(state){
+      return state.totalElements;
     }
   },
   modules: {
