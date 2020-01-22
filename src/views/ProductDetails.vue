@@ -9,7 +9,14 @@
             <h3>Name: {{productDetails.productName}}</h3>
             <h4>Price: {{productDetails.defaultPrice}}</h4>
             <h4>Description: {{productDetails.description}}</h4>
-            <h4>Attributes: {{ productDetails.attribute || 'NA' }}</h4>
+            <h4>Attributes: </h4>
+            <div v-for="cat in categories" v-bind:key="cat.categoryId">
+              <div v-if="cat.categoryId == productDetails.categoryId">
+                <div v-for="att in cat.attributeList" v-bind:key="att.att">
+                  <p>{{ att || 'NA' }}</p>
+                </div>
+              </div>
+            </div>
             <h4>Ratings: {{ productDetails.rating || 'NA' }}</h4>
           </div>
         </div>
@@ -50,10 +57,13 @@ export default {
       });
     },
     computed: {
-      ...mapGetters(["productGetter"]),
+      ...mapGetters(["productGetter","categoriesGetter"]),
       productDetails() {
         // window.console.log('this is response of product'+this.productGetter);
         return this.productGetter;
+      },
+      categories() {
+        return this.categoriesGetter;
       }
     }
 }
