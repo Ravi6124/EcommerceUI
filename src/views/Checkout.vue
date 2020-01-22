@@ -1,6 +1,6 @@
 <template>
   <main class="checkout">
-      this is checkout page..
+    
   </main>
 </template>
 
