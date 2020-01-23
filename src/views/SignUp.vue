@@ -17,14 +17,15 @@
         <input type="password" name="confirm_password" v-model="cpwd" required> <br><br>
       </div>
 
-      <div class="form__usertype">
+      <div class="user_type">
         <label>
           <input type="radio" name="user" value="C" checked>Customer
         </label>
         <label>
-          <input type="radio" name="user" value="M">Merchant <br><br>
+          <input type="radio" name="user" value="M">Merchant
         </label>
-      </div>
+      </div><br>
+      
       <button class="myBtn" :class="{'disabled': disableBtn}" @click.prevent="postUserData()">SignUp</button>
       <br><br>
     </form><br>
@@ -74,7 +75,6 @@ export default {
       }
   }
 }
-
 </script>
 
 <style scoped>
@@ -109,6 +109,10 @@ export default {
     margin-left: 35%;
     background-color:palegoldenrod;
     background:rgba(255,255,255,0.5);
+  }
+  .form_usertype {
+    display: flex;
+    justify-content: space-between;
   }
   .form-input {
     width: 70%;

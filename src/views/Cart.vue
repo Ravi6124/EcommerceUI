@@ -5,20 +5,16 @@
       <div class="container">
         <div class="product" v-for="(item, index) in items" v-bind:key="index">
           <div class="image">
-            <img :src="item.img_url" alt="image" height="220" width="210">
+            <img :src="item.imageURL" alt="image" height="220" width="210">
           </div>
           <div class="details">
               <div class="details__name">
                 <label>Name:</label>
-                <span><strong>{{ item.name }}</strong></span>
+                <span><strong>{{ item.productName }}</strong></span>
               </div>
               <div class="details__price">
                 <label>Price:</label>
                 <span>&#8377; {{ item.price }}</span>
-              </div>
-              <div class="details__desc">
-                <label>Description:</label>
-                <span>{{ item.description }}</span>
               </div>
               <div class="details__qty">
                 <label>Quantity:</label>
@@ -56,16 +52,26 @@ export default {
     }
   },
   methods: {
-    decrement(index) {
+    decrement(item, index) {
       if(this.items[index].quantity == 0)  return;
       this.items[index].quantity--;
       this.total -= this.items[index].price;
-      window.console.log(this.items);
+      
+      axios.delete('https://jsonplaceholder.typicode.com/posts', this.customerId, item.productId)
+        .then(res => {
+          window.console.log("res: ", res);
+          return res;
+        });
     },
-    increment(index) {
+    increment(item, index) {
       this.items[index].quantity++;
       this.total += this.items[index].price;
-      window.console.log(this.items);
+      item.quantity = this.quantity;
+      axios.post('https://jsonplaceholder.typicode.com/posts', this.customerId, item)
+        .then(res => {
+          window.console.log("res: ", res);
+          return res;
+        });
     },
     checkout(e) {
       e.preventDefault();
@@ -77,7 +83,7 @@ export default {
         items,
         customerId
       };
-      axios.post('https://jsonplaceholder.typicode.com/posts', data)
+      axios.post('https://jsonplaceholder.typicode.com/posts', this.customerId, this.totalAmount, data)
         .then(res => {
           window.console.log("res: ", res);
           return res;

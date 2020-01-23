@@ -22,6 +22,9 @@ export default {
 </script>
 
 <style>
+hr {
+  color: black;
+}
 body {
   margin: 0px;
 }

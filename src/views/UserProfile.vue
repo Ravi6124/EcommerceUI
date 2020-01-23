@@ -21,7 +21,7 @@ export default {
     },
     mounted() {
       const axios = require('axios');
-      axios({ method: "GET", url: "http://localhost:3000/user" })
+      axios({ method: "GET", url: "http://localhost:3001/user" })
       .then(result => {
         this.info = result.data;
         window.console.log(this.info);
