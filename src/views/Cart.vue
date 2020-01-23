@@ -19,9 +19,9 @@
               <div class="details__qty">
                 <label>Quantity:</label>
                 <div>
-                  <button @click="decrement(index)">-</button>
+                  <button @click="decrement(item, index)">-</button>
                   <span>{{ item.quantity }}</span>
-                  <button @click="increment(index)">+</button>
+                  <button @click="increment(item, index)">+</button>
                 </div>
               </div>
             </div>
@@ -51,12 +51,23 @@ export default {
       customerId: 0
     }
   },
+  created() {
+    axios.get("http://localhost:3000/items")
+    .then(result => {
+      this.items = result.data;
+      window.console.log(this.items);
+      },
+      error => {
+        window.console.error(error);
+      }
+    );
+  },
   methods: {
     decrement(item, index) {
       if(this.items[index].quantity == 0)  return;
       this.items[index].quantity--;
       this.total -= this.items[index].price;
-      
+      window.console.log(this.customerId, item.productId);
       axios.delete('https://jsonplaceholder.typicode.com/posts', this.customerId, item.productId)
         .then(res => {
           window.console.log("res: ", res);
@@ -66,7 +77,8 @@ export default {
     increment(item, index) {
       this.items[index].quantity++;
       this.total += this.items[index].price;
-      item.quantity = this.quantity;
+      item.quantity = this.items[index].quantity;
+      window.console.log(this.customerId, item);
       axios.post('https://jsonplaceholder.typicode.com/posts', this.customerId, item)
         .then(res => {
           window.console.log("res: ", res);
@@ -76,32 +88,40 @@ export default {
     checkout(e) {
       e.preventDefault();
       const total = this.total;
-      const items = this.items;
       const customerId = this.customerId;
+      const checkout_response = [];
       const data = {
         total,
-        items,
-        customerId
+        customerId,
+        data
       };
+      axios.get("http://localhost:3000/items")
+        .then(result => {
+          this.checkout_response = result.data;
+        },
+        error => {
+          window.console.error(error);
+        }
+      );
+      if (!checkout_response.status){
+        alert("You need to login to place an order!!");
+        // const router = new VueRouter({
+        //   routes: [
+        //     { path: '/a', redirect: '/b' }
+        //   ]
+        // })
+
+        return;
+      }
       axios.post('https://jsonplaceholder.typicode.com/posts', this.customerId, this.totalAmount, data)
         .then(res => {
           window.console.log("res: ", res);
           return res;
         });
     }
-  },
-  created() {
-    axios({ method: "GET", url: "http://localhost:3000/items" })
-    .then(result => {
-      this.items = result.data;
-      window.console.log(this.items);
-      },
-      error => {
-        window.console.error(error);
-      }
-    );
   }
 }
+
 </script>
 
 <style scoped>

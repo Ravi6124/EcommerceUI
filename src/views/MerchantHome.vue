@@ -1,11 +1,12 @@
 <template>
   <main class="merchanthome">
     <div class="sidenav">
-      <a href="#">Add Product</a>
-      <a href="#">Update Product Details</a>
-      <a href="#">Order</a>
-      <a href="#">View</a>
+      <router-link to="">Add Product</router-link>
+      <router-link to="">Update Product Details</router-link>
+      <router-link to="">Order</router-link>
+      <router-link to="">View</router-link>
     </div>
+
   </main>
 </template>
 
@@ -16,5 +17,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .sidenav {
+    margin-left: 25%;
+  }
 </style>

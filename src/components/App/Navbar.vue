@@ -1,6 +1,6 @@
 <template>
   <nav id="nav" class="navbar">
-    <router-link to="/"><img src="src/assets/icon.jpg" alt="home" height="20" width="20"></router-link>
+    <router-link to="/"><i class="fa fa-home"></i></router-link>
     <div class="search">
       <input type="text" class="search_input" placeholder="Search..">
       <router-link class="fas fa_search" to="">&#xf002;</router-link>
@@ -19,6 +19,13 @@ export default {
 </script>
 
 <style scoped>
+  .fa_search {
+    padding-left: 20px;
+  }
+  .fa-home {
+    font-size: 200%;
+    /* padding-left: 20px; */
+  }
   .navbar {
     display: flex;
     justify-content: space-between;
@@ -26,18 +33,20 @@ export default {
     text-align: center;
   }
   .login {
+    font-size: 150%;
     cursor: pointer;
     /* color: darkblue; */
   }
   .fa_cart{
-    font-size: 35px;
+    font-size: 170%;
     /* color: darkblue; */
-    padding-right: 50px;
+    padding-right: 40px;
   }
   .search_input {
-    width: 90%;
+    width: 30vw;
     height: 30px;
     border-radius: 3px;
+    padding-right: 20px;
   }
 </style>
 

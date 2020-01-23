@@ -1,6 +1,6 @@
 <template>
   <main class="merchantupdateproducts">
-      this is merchant update products page..
+      <h1>Update Products</h1>
   </main>
 </template>
 
@@ -11,5 +11,7 @@ export default {
 </script>
 
 <style scoped>
-
+  h1 {
+    text-align: center;
+  }
 </style>

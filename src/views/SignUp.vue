@@ -99,8 +99,8 @@ export default {
   form {
     text-align: center;
     position: relative;
-    border: 2px solid black;
-    border-radius: 15px;
+    border: 1px solid black;
+    border-radius: 5px;
     padding-bottom: 30px;
     padding-top: 30px;
     margin-top: 0%;
