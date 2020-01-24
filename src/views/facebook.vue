@@ -1,10 +1,12 @@
     <template>
+    <div>
   <fb-signin-button
     :params="fbSignInParams"
     @success="onSignInSuccess"
     @error="onSignInError">
     Sign in with Facebook
   </fb-signin-button>
+    </div>
 </template>
 <script>
 export default {
@@ -30,11 +32,11 @@ export default {
 }
 </script>
 <style>
-.fb-signin-button {
+.fb-signin-button  {
   display: inline-block;
   padding: 5px 10px;
   border-radius: 5px;
-  background-color:rosybrown;
+  background-color:dodgerblue;
   color:black;
 }
 </style>

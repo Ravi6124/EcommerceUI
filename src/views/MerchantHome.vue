@@ -27,7 +27,7 @@ export default {
   display: flex;
   flex-direction: row;
   margin-top: 0px;
-  margin-bottom: 200px;
+  margin-bottom: 200px; 
 }
 .sidebar{
   display: flex;

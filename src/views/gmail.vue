@@ -1,49 +1,42 @@
 <template>
-<div>
-<div class="g-signin2" data-onsuccess="onSignIn"></div>
-</div>
+  <g-signin-button
+    :params="googleSignInParams"
+    @success="onSignInSuccess"
+    @error="onSignInError">
+    Sign in with Google
+  </g-signin-button>
 </template>
-
-<script>
+ <script>
 export default {
-    data (){
-        return {
-            name:''
-
-        }
-    }
-},
-
-
-    
- methods: {
-        onSignIn:function(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            window.console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            window.console.log('Name: ' + profile.getName());
-            window.console.log('Image URL: ' + profile.getImageUrl());
-            window.console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present
-        },
-        submitClicked () {
-            let data = {
-                email: this.username,
-                password: this.password,
-                loginType: this.loginType
-            }
-            this.$store.dispatch('loginUser', {
-                data: data,
-                success: function () {
-                    window.console.log('login successful...');
-                },
-                fail: function () {
-                    window.console.log('login failed ...');
-                }
-            })
-        }
+  data () {
+    return {
+    googleSignInParams: {
+       client_id: '81022045716-f3lkljg67ekiltq7e4cf6352u3l3or7d.apps.googleusercontent.com'
+      }
+     }
+  },
+  methods:{
+    onSignInSuccess (googleUser)
+    {
+      //const data={acessToken:googleUser.uc.access_token}
+      window.console.log(googleUser)
+      //this.$store.dispatch('sendToken',{data})
+    },
+    onSignInError (error) {
+      // `error` contains any error occurred.
+      window.console.log('OH NOES', error)
     }
 }
-</script>
-
-<style>
-
-</style>
+//}
+}
+ </script>
+ <style>
+.g-signin-button {
+  /* This is where you control how the button looks. Be creative! */
+  display: inline-block;
+   padding: 5px 10px;
+  border-radius: 5px;
+  background-color:dodgerblue;
+  color:black;
+ }
+ </style>
