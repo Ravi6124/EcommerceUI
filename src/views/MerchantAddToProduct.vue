@@ -1,15 +1,25 @@
 <template>
   <main class="merchantaddtoproduct">
-      this is merchant add to product page..
+      <MerchantSideBar />
+      <div class="main">
+        <h1>Add a new Product</h1>
+      </div>
   </main>
 </template>
 
 <script>
-export default {
-    name: 'MerchantAddToProduct'
-}
+  import MerchantSideBar from '@/components/MerchantSideBar.vue'
+  export default {
+      name: 'MerchantAddToProduct',
+      components: {
+        MerchantSideBar
+      }
+  }
 </script>
 
 <style scoped>
-
+  h1 {
+    text-align: center;
+    margin-left: 25%;
+  }
 </style>

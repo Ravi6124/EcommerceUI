@@ -1,15 +1,25 @@
 <template>
   <main class="merchantorderdetails">
-      this is merchant order details page..
+      <MerchantSideBar />
+      <div class="main">
+        <h1>Order History</h1>
+      </div>
   </main>
 </template>
 
 <script>
-export default {
-    name: 'MerchantOrderDetails'
-}
+  import MerchantSideBar from '@/components/MerchantSideBar.vue'
+  export default {
+      name: 'MerchantOrderDetails',
+      components: {
+        MerchantSideBar
+      }
+  }
 </script>
 
 <style scoped>
-
+  h1 {
+    text-align: center;
+    margin-left: 25%;
+  }
 </style>

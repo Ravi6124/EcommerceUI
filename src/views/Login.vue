@@ -74,10 +74,6 @@ export default {
     display: flex;
     justify-content: center;
   }
-  .heading{
-    text-align: center;
-    font-size: 2.5em;
-  }
   form{
     text-align: center;
     border: 1px solid black;
