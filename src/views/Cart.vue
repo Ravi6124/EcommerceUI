@@ -40,7 +40,7 @@
 </template>
 
 <script>
-const axios = require('axios');
+const axios = require('axios').default;
 export default {
   name: 'Cart',
   data: function(){
@@ -52,10 +52,11 @@ export default {
     }
   },
   created() {
-    axios.get("http://localhost:3000/items")
+    axios.get('http://172.16.20.98:8080/cart/fakeId')
     .then(result => {
-      this.items = result.data;
-      window.console.log(this.items);
+      window.console.log(result.data.items);
+      this.items = result.data.items;
+      this.total = result.data.totalAmount;
       },
       error => {
         window.console.error(error);
@@ -68,8 +69,11 @@ export default {
       this.items[index].quantity--;
       this.total -= this.items[index].price;
       window.console.log(this.customerId, item.productId);
-      axios.delete('https://jsonplaceholder.typicode.com/posts', this.customerId, item.productId)
-        .then(res => {
+      axios.delete('http://172.16.20.98:8080/cart/reduceitem', {
+        customerId : 'fakeId', 
+        productId: item.productId
+      })
+      .then(res => {
           window.console.log("res: ", res);
           return res;
         });
@@ -79,7 +83,10 @@ export default {
       this.total += this.items[index].price;
       item.quantity = this.items[index].quantity;
       window.console.log(this.customerId, item);
-      axios.post('https://jsonplaceholder.typicode.com/posts', this.customerId, item)
+      axios.post('https://jsonplaceholder.typicode.com/posts', {
+        customerId: this.customerId, 
+        item: this.item
+        })
         .then(res => {
           window.console.log("res: ", res);
           return res;
@@ -105,21 +112,20 @@ export default {
       );
       if (!checkout_response.status){
         alert("You need to login to place an order!!");
-        // const router = new VueRouter({
-        //   routes: [
-        //     { path: '/a', redirect: '/b' }
-        //   ]
-        // })
-
         return;
       }
-      axios.post('https://jsonplaceholder.typicode.com/posts', this.customerId, this.totalAmount, data)
+      axios.post('https://jsonplaceholder.typicode.com/posts', {
+        customerId: this.customerId,
+        totalAmount: this.totalAmount,
+        data: this.data
+      })
         .then(res => {
           window.console.log("res: ", res);
           return res;
         });
     }
   }
+  // this.$router.push
 }
 
 </script>

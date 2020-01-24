@@ -9,7 +9,8 @@ export default new Vuex.Store({
     categories: [],
     products: [],
     totalElements: 0,
-    product: {}
+    product: {},
+    searchResults: []
   },
   mutations: {
     GET_CATEGORIES(state, value){
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     },
     GET_PRODUCTS(state, value){
       state.product = value
+    },
+    GET_SEARCHRESULTS(state, value) {
+      state.searchResults = value
     }
   },
   actions: {
@@ -47,6 +51,14 @@ export default new Vuex.Store({
         // window.console.log(res.data),
         commit('GET_PRODUCTS', res.data)
       })
+    },
+    getSearchResult({commit} , {params} = {}) {
+      Axios
+      .get('http://172.16.20.110:8082/search/searchFunction/10/'+ params.pageNum +' /' + params.skey)
+      .then(res => {
+        window.console.log(res.data.content)
+        commit('GET_SEARCHRESULTS', res.data.content)
+      })
     }
   },
   getters: {
@@ -61,6 +73,9 @@ export default new Vuex.Store({
     },
     totalElementsGetter(state){
       return state.totalElements;
+    },
+    searchResultGetter(state) {
+      return state.searchResults;
     }
   },
   modules: {

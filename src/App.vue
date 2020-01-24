@@ -35,7 +35,7 @@ body {
   color: #2c3e50;
 }
 main {
-  min-height: calc(90vh - 80px);
+  min-height: calc(90vh - 40px);
 }
 button.myBtn {
   padding: 10px 20px;
