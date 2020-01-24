@@ -1,6 +1,6 @@
 <template>
   <main class="userhome">
-    <div v-for="categories in abc" v-bind:key="categories.categoryId" class="container" @click="passingCid(categories.categoryId)">
+    <div v-for="categories in abc" v-bind:key="categories.categoryId" class="container" @click="passingCid(categories.categoryId,categories.name)">
       <div class="category__image">
         <img :src="categories.imageURL" alt="no image" />
       </div>
@@ -26,8 +26,8 @@ export default {
     this.$store.dispatch('getCategories');
   },
   methods: {
-    passingCid(cid) {
-      this.$router.push({ name: 'category', params: {cid}})
+    passingCid(cid,cname) {
+      this.$router.push({ name: 'category', params: {cid, cname}})
     }
   }
 };
@@ -65,7 +65,7 @@ export default {
 .category__image {
   height: 200px;
   width: 300px;
-  opacity: 0.7;
+  opacity: 0.3;
   -webkit-transition-duration: 0.8s; /* Safari */
   transition-duration: 0.8s;
 }

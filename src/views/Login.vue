@@ -24,8 +24,8 @@
       Not a user?<a href="/signup">SignUp</a><br>
       <a href="/forgot">Forgot your Password?</a>
       <br><br>
-      <a href="#" class="fa fa-facebook"></a>
-      <a href="#" class="fa fa-google"></a>
+      <a href="#" @click="FacebookAuth" class="fa fa-facebook"></a>
+      <a href="#" @click="googleauth" class="fa fa-google"></a>
     </form>
     <div class="successful">{{ msg }}</div>
   </main>
@@ -42,9 +42,14 @@ export default {
       }
     },
     methods: {
-      login() {
-        
-      }
+      googleauth: function() {
+      //window.console.log("IN");
+      this.$store.dispatch("googleauth");
+    },
+    FacebookAuth: function() {
+      // window.console.log(this.$store)
+      this.$store.dispatch("fbAuth");
+    },
     }
   }
 </script>

@@ -5,21 +5,21 @@
       <div class="container">
         <div class="product" v-for="(item, index) in items" v-bind:key="index">
           <div class="image">
-            <img :src="item.img_url" alt="image" height="220" width="210">
+            <img :src="item.imageURL" alt="image" height="220" width="210">
           </div>
           <div class="details">
               <div class="details__name">
                 <label>Name:</label>
-                <span><strong>{{ item.name }}</strong></span>
+                <span><strong>{{ item.productName }}</strong></span>
               </div>
               <div class="details__price">
                 <label>Price:</label>
                 <span>&#8377; {{ item.price }}</span>
               </div>
-              <div class="details__desc">
+              <!-- <div class="details__desc">
                 <label>Description:</label>
                 <span>{{ item.description }}</span>
-              </div>
+              </div> -->
               <div class="details__qty">
                 <label>Quantity:</label>
                 <div>
@@ -69,11 +69,11 @@ export default {
     },
     checkout(e) {
       e.preventDefault();
-      const total = this.total;
+      const totalAmount = this.total;
       const items = this.items;
       const customerId = this.customerId;
       const data = {
-        total,
+        totalAmount,
         items,
         customerId
       };
@@ -85,9 +85,10 @@ export default {
     }
   },
   created() {
-    axios({ method: "GET", url: "http://localhost:3000/items" })
+    axios({ method: "GET", url: "http://172.16.20.98:8080/cart/fakeId" })
     .then(result => {
-      this.items = result.data;
+      this.total = result.data.totalAmount;
+      this.items = result.data.items;
       window.console.log(this.items);
       },
       error => {

@@ -1,5 +1,7 @@
 <template>
   <main>
+    <h1>{{this.$route.params["cname"]}}</h1>
+    <hr>
     <div class="category">
       <div
         v-for="products in abc"
@@ -37,7 +39,6 @@ export default {
   computed: {
     ...mapGetters(["productsGetter","totalElementsGetter"]),
     abc() {
-      // window.console.log(this.productsGetter.content);
       return this.productsGetter;
     },
     totalElements() {
@@ -52,13 +53,15 @@ export default {
       }
     });
   },
+  destroyed() {
+    this.$store.dispatch("resetProducts");
+  },
   methods: {
     passingPid(pid) {
       this.$router.push({ name: "productdetails", params: { pid } });
     },
     incrementPageNumber() {
       this.pageNum = this.pageNum + 1;
-      // window.console.log("page number is equal to " + this.pageNum);
       this.$store.dispatch("getProductsByCategory", {
         params: {
           cid: this.$route.params["cid"],
@@ -71,6 +74,9 @@ export default {
 </script>
 
 <style scoped>
+h1{
+  text-align: center;
+}
 .category {
   display: flex;
   flex-wrap: wrap;
