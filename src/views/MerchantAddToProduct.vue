@@ -11,6 +11,7 @@
       </textarea>
       <br>
       <button @click="MerchantAddToProduct">Next</button> 
+      
     </div>   
     </div>
  </main>

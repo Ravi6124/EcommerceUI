@@ -23,7 +23,7 @@
       Not a user?<a href="#">SignUp</a><br>
       <a href="#">Forgot your Password</a>
       <br><br>
-      <a href="#" class="fa fa-facebook"></a>
+      <facebook></facebook>
       <a href="#" class="fa fa-google"></a>
     </div>
     <br><br>
@@ -31,8 +31,17 @@
 </template>
 
 <script>
+import Facebook from '@/views/facebook'
 export default {
-    name: 'Login'
+    name: 'login',
+    data: function () {
+        return {
+            
+        }
+    },
+    components: {
+      Facebook
+    }
 }
 </script>
 
@@ -79,7 +88,7 @@ export default {
     padding: 20px;
     font-size: 30px;
     width:20px;
-    border-radius: 50%;
+    border-radius: 5%;
     text-align: center;
     text-decoration: none;
     margin: 5px 2px;
