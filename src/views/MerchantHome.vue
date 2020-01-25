@@ -5,7 +5,6 @@
     </div>
     
     <MerchantSideBar />
-
   </main>
 </template>
 
@@ -25,6 +24,8 @@ export default {
 <style scoped>
   h1 {
     text-align: center;
-    margin-left: 25%;
+  }
+  .main {
+    margin-left: 20%
   }
 </style>

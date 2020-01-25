@@ -1,9 +1,10 @@
 <template>
   <main class="merchantaddtoproduct">
-      <MerchantSideBar />
       <div class="main">
         <h1>Add a new Product</h1>
       </div>
+
+      <MerchantSideBar />
   </main>
 </template>
 
@@ -20,6 +21,8 @@
 <style scoped>
   h1 {
     text-align: center;
-    margin-left: 25%;
+  }
+  .main {
+    margin-left: 20%;
   }
 </style>

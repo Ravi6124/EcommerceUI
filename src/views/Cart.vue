@@ -40,8 +40,8 @@
 </template>
 
 <script>
-const axios = require('axios').default;
-export default {
+  const axios = require('axios').default;
+  export default {
   name: 'Cart',
   data: function(){
     return {

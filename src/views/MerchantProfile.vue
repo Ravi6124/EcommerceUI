@@ -1,9 +1,10 @@
 <template>
   <main class="merchantprofile">
-    <MerchantSideBar />
     <div class="main">
       <h1>Profile</h1>
     </div>
+
+    <MerchantSideBar />
   </main>
 </template>
 
@@ -20,6 +21,8 @@
 <style scoped>
   h1 {
     text-align: center;
-    margin-left: 25%;
+  }
+  .main {
+    margin-left: 20%;
   }
 </style>

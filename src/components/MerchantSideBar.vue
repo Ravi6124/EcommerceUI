@@ -14,7 +14,7 @@ export default {
 </script>
 
 <style scoped>
-      .sidenav {
+  .sidenav {
     font-size: 20px;
     height: 100vH;
     width: 20%;
