@@ -1,7 +1,10 @@
 <template>
   <main class="merchantaddtolist">
       <div class="main">
-        <h1>Add more Products</h1>
+        <!-- product exists in database -->
+        <h1>Add to your Inventory</h1>
+        
+        <!-- attri, quantity -->
       </div>
 
       <MerchantSideBar />

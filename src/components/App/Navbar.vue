@@ -5,7 +5,7 @@
     </router-link>
     <div class="search">
       <input type="text" class="search_input" placeholder="Search.." @keypress.enter="search" v-model="searchKey" />
-      <button class="fas fa_search" @click="search()">&#xf002;</button>
+      <button class="fas fa_search" @click="search">&#xf002;</button>
     </div>
     <div class="right_corner">
       <router-link to="/cart" class="fas fa_cart">&#xf07a;</router-link>
