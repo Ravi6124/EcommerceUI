@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 // const axios = require('axios');
 export default {
   name: "SignUp",
@@ -59,8 +60,15 @@ export default {
       cpwd: "",
       userType: "",
       created: "",
-      error: ""
+      error: "",
+      res: {}
     };
+  },
+  computed: {
+    ...mapGetters(["signupResponseGetter"]),
+    signupRes() {
+      return this.signupResponseGetter
+    }
   },
   methods: {
     postUserData() {
@@ -89,27 +97,24 @@ export default {
       let password = this.password;
       let userType = this.userType;
 
-      const data = {
+      let data = {
         emailAddress: email,
         password: password,
-        role: userType
+        role: userType,
+        guestId: localStorage.getItem('guestId')
       };
-      // window.console.log(data)
-      fetch("http://172.16.20.121:8080/customer", {
-        headers: {
-          "Content-Type": "application/json"
-        },
-        method: "POST",
-        body: JSON.stringify(data)
-      }).then(function(res) {
 
-        window.console.log("Response from reg: "+ res)
-      }).catch(function(res) {
-        window.console.log("error from reg:" + res)
-      })
+      this.$store.dispatch('signup',{
+        params: {
+          data: data
+        }
+      });
 
-      this.created = "Account Created Successfully";
-      this.error = "";
+      if(this.signupRes.statusCode == 1000){
+        this.$router.push({name: 'login'})
+      }else if(this.signupRes.statusCode == 800){
+        this.error = this.signupRes.message
+      }
     }
     // validEmail: function (email) {
     //   var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/

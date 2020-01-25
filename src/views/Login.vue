@@ -4,23 +4,23 @@
     <form action="">
       <div class="form-input email"><br>
         <label class="label-text">Email</label> <br>
-        <input type="email" name="email"><br><br>
+        <input type="email" name="email" v-model="email"><br><br>
       </div>
       
       <div class="form-input password">
         <label class="label-text">Password</label> <br>
-        <input type="password" name="password"><br><br>
+        <input type="password" name="password" v-model="password"><br><br>
       </div>
       
       <div class="user_type">
         <label>
-          <input type="radio" name="user" value="C" checked>Customer
+          <input type="radio" name="user" value="customer" v-model="role" checked>Customer
         </label>
         <label>
-          <input type="radio" name="user" value="M">Merchant
+          <input type="radio" name="user" value="merchant" v-model="role">Merchant
         </label>
       </div><br>
-      <button class="myBtn" :class="{'disabled': disableBtn}" @click="login()">Sign In</button><br><br>
+      <button class="myBtn"  @click.prevent="login">Sign In</button><br><br>
       Not a user?<a href="/signup">SignUp</a><br>
       <a href="/forgot">Forgot your Password?</a>
       <br><br>
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
     name: 'Login',
     data: function(){
@@ -41,17 +42,60 @@ export default {
         msg: ''
       }
     },
+    computed: {
+      ...mapGetters(["loginResponseGetter"]),
+      loginRes() {
+        return this.loginResponseGetter;
+      }
+    },
     methods: {
       googleauth: function() {
       //window.console.log("IN");
-      this.$store.dispatch("googleauth");
-    },
-    FacebookAuth: function() {
-      // window.console.log(this.$store)
-      this.$store.dispatch("fbAuth");
-    },
+      this.$store.dispatch("googleAuth");
+      },
+      FacebookAuth: function() {
+        // window.console.log(this.$store)
+        this.$store.dispatch("fbAuth");
+      },
+      login() {
+        if (!(this.password && this.email && this.role)) {
+          window.console.log('function call!!')
+          this.msg = 'All above fields are required';
+          return false;
+        }
+
+        let email = this.email;
+        let password = this.password;
+        let role = this.role;
+
+        let data = {
+        emailAddress: email,
+        password: password,
+        role: role,
+        guestId: localStorage.getItem('guestId')
+        };
+
+        this.$store.dispatch('login', {
+          params: {
+            data: data
+          }
+        });
+
+        if(this.loginRes.statusCode==800){
+          this.msg = this.loginRes.message;
+        }else if(this.loginRes.statusCode==1000){
+          localStorage.setItem('userEmail', this.loginRes.emailAddress)
+          localStorage.setItem('userRole', this.role)
+          localStorage.setItem('userId', this.loginRes.userId)
+          //store email in local storage
+          //if customer is logged in redirect to customer portion
+          //if merchant is logged in redirect to merchant home
+          this.$router.push({name : 'UserHome'})
+        }
+
+      }
     }
-  }
+}
 </script>
 
 <style scoped>
@@ -98,7 +142,7 @@ export default {
   }
   .successful {
     text-align: center;
-    color: darkgreen;
+    color: red;
   }
   .fa {
     padding: 20px;

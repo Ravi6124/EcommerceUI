@@ -11,12 +11,26 @@
 
 // import Footer from '@/components/App/Footer'
 import Navbar from '@/components/App/Navbar'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'App',
   components: {
     // Footer,
     Navbar
+  },
+  created() {
+    this.$store.dispatch("getGuestId");
+    localStorage.setItem('guestId',this.guestId),
+    localStorage.setItem('userRole',''),
+    localStorage.setItem('userId',''),
+    localStorage.setItem('userEmail','')
+  },
+  computed: {
+    ...mapGetters(["guestIdGetter"]),
+    guestId() {
+      return this.userIdGetter;
+    }
   }
 }
 </script>

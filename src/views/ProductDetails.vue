@@ -22,13 +22,19 @@
       </div>
       <div class="innerdiv">
         <div>
+          <div class="error">{{ error }}</div>
           <table>
             <tr>
-              <th></th>
-              <th>Merchant Name</th>
-              <th>Price</th>
-              <th>Rating</th>
+              <th rowspan="2"></th>
+              <th rowspan="2">Merchant Name</th>
+              <th rowspan="2">Price</th>
+              <th rowspan="2">Rating</th>
               <th colspan="3">Attributes</th>
+            </tr>
+            <tr>
+              <th>Color</th>
+              <th>Theme</th>
+              <th>Size</th>
             </tr>
             <tr v-for="merchant in merchants" v-bind:key="merchant.merchantId">
               <td>
@@ -47,16 +53,16 @@
               <td>{{merchant.size}}</td>
             </tr>
           </table>
-          {{error}}
         </div>
         <div class="btn">
           <div>
-            <button class="button" @click="addToCart($event)">Add To Cart</button>
+            <button class="myBtn" @click.prevent="addToCart($event)">Add To Cart</button>
           </div>
           <div>
-            <button class="button">Buy Now</button>
+            <button class="myBtn">Buy Now</button>
           </div>
         </div>
+        <div class="error">{{ errormsg }}</div>
       </div>
     </div>
   </main>
@@ -69,7 +75,6 @@ export default {
   data: function() {
     return {
       product: {},
-      //userId: Math.random()*100,
       productId: "",
       productName: "",
       imageURL: "",
@@ -77,23 +82,24 @@ export default {
       quantity: 1,
       price: 0,
       // radioSelecter: false,
-      error:''
+      error:'',
+      errormsg: ''
     };
   },
   created() {
     this.$store.dispatch("getProductDetails", {
       params: {
-        pid: "5e283342f1c5dc06e4629513" //this.$route.params["pid"]
+        pid: this.$route.params["pid"]
       }
     });
     this.$store.dispatch("getMerchantByProductId", {
       params: {
-        pid: "5e283342f1c5dc06e4629513" //this.$route.params["pid"]
+        pid: this.$route.params["pid"]
       }
     });
   },
   computed: {
-    ...mapGetters(["productGetter", "merchantsGetter", "guestIdGetter"]),
+    ...mapGetters(["productGetter", "merchantsGetter","addToCartResponseGetter"]),
     productDetails() {
       // window.console.log('this is response of product'+this.productGetter);
       return this.productGetter;
@@ -102,27 +108,56 @@ export default {
       // window.console.log(this.merchantsGetter);
       return this.merchantsGetter;
     },
-    guestId() {
-      return this.userIdGetter;
+    addToCartResponse() {
+      return this.addToCartResponseGetter;
     }
   },
   methods: {
     addToCart(e) {
       e.preventDefault();
-      if(this.radioSelector==''){
+      if(!(this.radioSelector)){
         this.error = "Please select a merchant"
         return false;
       }
 
+      let price = this.merchants[this.radioSelector].cost;
+      window.console.log(price);
+      let cartProduct = {
+        productId : this.productDetails.productId,
+        productName : this.productDetails.productName,
+        imageURL : this.productDetails.imageURL,
+        merchantId : this.radioSelector,
+        quantity : 1,
+        price : price
+      }
 
+      let userId;
 
-      this.$store.dispatch("getGuestId");
-      // let data = {
-      //   guestId: this.guestId,
-      //   cartProduct: {
-      //     productId: this.productDetails.productId
-      //   }
-      // };
+      if(localStorage.getItem('userRole')=='customer' && localStorage.getItem('userId')!=''){
+        userId = localStorage.getItem('userId');
+      }else{
+        userId = localStorage.getItem('guestId');
+      }
+
+      let data = {
+        userId: userId,
+        cartProduct: cartProduct
+      }
+
+      this.$store.dispatch('addToCart', {
+        params: {
+          data: data
+        }
+      });
+
+      let customerId = this.addToCartResponse.Cart.customerId;
+
+      if(this.addToCartResponse.resultCode==100){
+        this.$router.push({name: 'cart', params: {customerId}})
+      }else{
+        this.errormsg = "Problem in adding to cart!"
+      }
+
     }
   }
 };
@@ -155,7 +190,7 @@ export default {
 .innerdiv > div {
   margin: 20px;
 }
-.button {
+/* .button {
   padding: 10px 20px;
   background: #f2784b;
   color: #fff;
@@ -165,13 +200,12 @@ export default {
   font-size: 0.8rem;
   letter-spacing: 1px;
   font-weight: 700;
-  /* margin-right: 30px; */
 }
 .button:hover {
   background: #fff;
   color: #f2784b;
   border: 1px solid currentColor;
-}
+} */
 .btn {
   display: flex;
   justify-content: space-between;
@@ -205,6 +239,10 @@ td {
   text-align: center;
   margin-top: 10%;
 }
+.error {
+    text-align: center;
+    color: red;
+  }
 /* th{background-color: rgb(150, 146, 146);} */
 /* .scroll{
   overflow-y:auto;

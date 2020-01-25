@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 const axios = require('axios');
 export default {
   name: 'Cart',
@@ -53,6 +54,12 @@ export default {
       disableBtn: false,
       total: 0,
       customerId: 0
+    }
+  },
+  computed: {
+    ...mapGetters(["cartGetter"]),
+    cart(){
+      return this.cartGetter;
     }
   },
   methods: {
@@ -85,16 +92,25 @@ export default {
     }
   },
   created() {
-    axios({ method: "GET", url: "http://172.16.20.98:8080/cart/fakeId" })
-    .then(result => {
-      this.total = result.data.totalAmount;
-      this.items = result.data.items;
-      window.console.log(this.items);
-      },
-      error => {
-        window.console.error(error);
+    this.$store.dispatch('getCartOfCustomer',{
+      params: {
+        cid: this.$route.params["cid"]
       }
-    );
+    })
+
+    this.total = this.cart.totalAmount;
+    this.items = this.cart.items;
+
+    // axios({ method: "GET", url: "http://172.16.20.98:8080/cart/fakeId" })
+    // .then(result => {
+    //   this.total = result.data.totalAmount;
+    //   this.items = result.data.items;
+    //   window.console.log(this.items);
+    //   },
+    //   error => {
+    //     window.console.error(error);
+    //   }
+    // );
   }
 }
 </script>

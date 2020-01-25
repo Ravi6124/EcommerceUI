@@ -11,7 +11,7 @@ const routes = [
     component: UserHome
   },
   {
-    path: '/cart',
+    path: '/cart/:cid',
     name: 'cart',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
