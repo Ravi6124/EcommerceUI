@@ -55,17 +55,11 @@ export default {
   transform: translate(-50%, -50%);
   opacity: 0.9;
   color: black;
-  /* position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background-color: black;
-  color: white;
-  padding: 5px; */
 }
 .category__image {
   height: 200px;
   width: 300px;
-  opacity: 0.3;
+  opacity: 0.7;
   -webkit-transition-duration: 0.8s; /* Safari */
   transition-duration: 0.8s;
 }
@@ -73,7 +67,6 @@ export default {
   height: 100%;
   width: 100%;
 }
-
 .container{
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }

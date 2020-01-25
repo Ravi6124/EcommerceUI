@@ -1,60 +1,104 @@
 <template>
   <nav id="nav" class="navbar">
-    <div>
-      <router-link to="/"><button class="button">Home</button></router-link>
+    <router-link to="/">
+      <i class="fa fa-home"></i>
+    </router-link>
+    <div class="search">
+      <input type="text" class="search_input" placeholder="Search.." @keypress.enter="search" v-model="searchKey" />
+      <button class="fas fa_search" @click="search()">&#xf002;</button>
     </div>
-    <div>
-      Search Bar
-    </div>
-    <div>
-      <router-link to="/Cart"><button class="button">Cart</button></router-link>
-    </div>
-    <div>
-      <router-link to="/Login"><button class="button">Login</button></router-link>
+    <div class="right_corner">
+      <router-link to="/cart" class="fas fa_cart">&#xf07a;</router-link>
+      <a class="login" href="/login">
+        <span class="fas fa-sign-in-alt"></span> Login
+      </a>
     </div>
   </nav>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+//const axios = require("axios");
 export default {
-    name: 'Navbar'
-}
+  name: "Navbar",
+  data: function() {
+    return {
+      searchKey: "",
+      pageSize: 10,
+      pageNumber: 0
+    };
+  },
+  methods: {
+    ...mapActions([
+      'getSearchResult'
+    ]),
+    search() {
+      // window.console.log(
+      //   `172.16.20.110:8082/search/searchFunction/${this.pageSize}/${this.pageNumber}/${this.searchKey}`
+      // );
+     let skey= this.searchKey
+     this.getSearchResult({
+        params: {
+          skey: this.searchKey,
+          pageNum: 0 
+        }
+     })
+     this.$router.push({name: 'searchresult', params: {skey} });
+
+      // axios.get(`http://172.16.20.110:8082/search/searchFunction/${this.pageSize}/${this.pageNumber}/${this.searchKey}`).then(
+      //   result => {
+      //     window.console.log(result);
+
+      //   },
+      //   error => {
+      //     window.console.log(error);
+      //   }
+      // );
+    }
+  }
+};
 </script>
 
 <style scoped>
-.navbar {
-  background-color: white;
-  /* opacity: 0.5; */
-  min-height: 50px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+.fa_search {
+  padding-left: 15px;
 }
-
-.button{
-  background-color: white;
-  height: 40px;
-  width: 100%;
-  border: 1px solid;
-  color: black;
-  text-align: center;
-  font-size: 20px;
-  border-radius: 5px;
-  margin-top: 5px;
-  /* box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19); */
-  -webkit-transition-duration: 1s; /* Safari */
-  transition-duration: 1s;
-  outline: none;
+button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: #007bff;
+  font-size: 110%;
   cursor: pointer;
 }
-
-.button:hover{
-  background-color: black;
-  color: white;
+button:focus {
+  outline: none;
 }
-
-.navbar > div {
+button:hover {
+  color: darkblue;
+}
+.fa-home {
+  font-size: 200%;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  height: 40px;
   text-align: center;
-  width: 100px;
+}
+.login {
+  font-size: 150%;
+  cursor: pointer;
+}
+.fa_cart {
+  font-size: 170%;
+  padding-right: 40px;
+}
+.search_input {
+  width: 30vw;
+  height: 30px;
+  border-radius: 3px;
+  padding-right: 10px;
 }
 </style>
+

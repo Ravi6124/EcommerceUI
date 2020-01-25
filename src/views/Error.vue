@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="main">
       Well, this is embarassing!! 
   </main>
 </template>
@@ -11,5 +11,7 @@ export default {
 </script>
 
 <style scoped> 
-
+  .main {
+    text-align: center;
+  }
 </style>

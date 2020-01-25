@@ -102,6 +102,11 @@ const routes = [
     path: '/forgot',
     name: 'forgot',
     component: () => import('../views/happ.vue')
+  },
+  {
+    path: '/searchresult/:skey',
+    name: 'searchresult',
+    component: () => import('../views/SearchResult.vue')
   }
 ]
 

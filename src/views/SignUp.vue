@@ -26,7 +26,7 @@
         <br />
       </div>
 
-      <div class="form__usertype">
+      <div class="user_type">
         <label>
           <input type="radio" name="user" value="customer" v-model="userType" checked />Customer
         </label>
@@ -121,59 +121,61 @@ export default {
     //   return re.test(email);
     // }
   }
-};
+}
 </script>
 
 <style scoped>
-label {
-  padding-right: 25px;
-  padding-left: 0px;
-  cursor: pointer;
-}
-body {
-  margin: 0%;
-  padding: 0%;
-  background-repeat: no-repeat;
-  background-size: 100%;
-}
-h1 {
-  text-align: center;
-}
-input[type="email"],
-input[type="password"] {
-  width: 100%;
-  height: 25px;
-}
-form {
-  text-align: center;
-  position: relative;
-  border: 2px solid black;
-  border-radius: 15px;
-  padding-bottom: 30px;
-  padding-top: 30px;
-  margin-top: 0%;
-  margin-bottom: 1%;
-  margin-right: 35%;
-  margin-left: 35%;
-  background-color: palegoldenrod;
-  background: rgba(255, 255, 255, 0.5);
-}
-.form-input {
-  width: 70%;
-  margin: 0 auto;
-  text-align: left;
-}
-.label-text {
-  font-weight: bold;
-}
-.created {
-  text-align: center;
-  color: darkgreen;
-}
-.error {
-  text-align: center;
-  color: red;
-}
-/* :class="{'disabled': disableBtn}" */
+  label {
+    padding-right: 25px;
+    padding-left: 0px;
+    cursor: pointer;
+  }
+  body {
+    margin: 0%;
+    padding: 0%;
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+  h1 {
+    text-align: center;
+  }
+  input[type="email"], input[type="password"] {
+   width: 100%; 
+   height: 25px;
+  }
+  form {
+    text-align: center;
+    position: relative;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding-bottom: 30px;
+    padding-top: 30px;
+    margin-top: 0%;
+    margin-bottom: 1%;
+    margin-right: 35%;
+    margin-left: 35%;
+    background-color:palegoldenrod;
+    background:rgba(255,255,255,0.5);
+  }
+  .form_usertype {
+    display: flex;
+    justify-content: space-between;
+  }
+  .form-input {
+    width: 70%;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .label-text {
+    font-weight: bold;
+  }
+  .created {
+    text-align: center;
+    color: darkgreen;
+  }
+  .error {
+    text-align: center;
+    color: red;
+  }
 </style>
 

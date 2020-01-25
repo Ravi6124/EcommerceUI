@@ -21,7 +21,8 @@ export default new Vuex.Store({
     signupResponse: {},
     loginResponse: {},
     addToCartResponse: {},
-    cart: []
+    cart: [],
+    searchResults: []
   },
   mutations: {
     GET_CATEGORIES(state, value){
@@ -29,7 +30,6 @@ export default new Vuex.Store({
     },
     GET_PRODUCTSBYCATEGORY(state, value) {
       state.products = state.products.concat(value.content);
-      //state.products = value.content;
       state.totalElements = value.totalElements;
     },
     GET_PRODUCTS(state, value){
@@ -55,6 +55,9 @@ export default new Vuex.Store({
     },
     GET_CART_OF_CUSTOMER(state,value) {
       state.cart = value
+    },
+    GET_SEARCHRESULTS(state, value) {
+      state.searchResults = value
     }
   },
   actions: {
@@ -279,6 +282,31 @@ export default new Vuex.Store({
     //       window.console.log(errorCode + errorMessage + email + credential)
     //     })
     // }
+    // getProductsByCategory({commit}, {params} = {}){
+    //   // window.console.log("PageNumber:", params.pageNum);
+    //   Axios
+    //   .get('http://172.16.20.119:8082/productapi/product/category/' + params.cid + '/' + params.pageNum + '/3')
+    //   .then(res => {
+    //     window.console.log(res),
+    //     commit('GET_PRODUCTSBYCATEGORY', res.data)
+    //   })
+    // },
+    // getProductDetails({commit}, {params} = {}){
+    //   Axios
+    //   .get('http://172.16.20.119:8082/productapi/product/' + params.pid)
+    //   .then(res => {
+    //     // window.console.log(res.data),
+    //     commit('GET_PRODUCTS', res.data)
+    //   })
+    // },
+    getSearchResult({commit} , {params} = {}) {
+      Axios
+      .get('http://172.16.20.110:8082/search/searchFunction/10/'+ params.pageNum +' /' + params.skey)
+      .then(res => {
+        window.console.log(res.data.content)
+        commit('GET_SEARCHRESULTS', res.data.content)
+      })
+    }
   },
   getters: {
     categoriesGetter(state){
@@ -310,6 +338,9 @@ export default new Vuex.Store({
     },
     cartGetter(state) {
       return state.cart;
+    },
+    searchResultGetter(state) {
+      return state.searchResults;
     }
   },
   modules: {

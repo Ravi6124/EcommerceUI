@@ -16,16 +16,12 @@
                 <label>Price:</label>
                 <span>&#8377; {{ item.price }}</span>
               </div>
-              <!-- <div class="details__desc">
-                <label>Description:</label>
-                <span>{{ item.description }}</span>
-              </div> -->
               <div class="details__qty">
                 <label>Quantity:</label>
                 <div>
-                  <button @click="decrement(index)">-</button>
+                  <button @click="decrement(item, index)">-</button>
                   <span>{{ item.quantity }}</span>
-                  <button @click="increment(index)">+</button>
+                  <button @click="increment(item, index)">+</button>
                 </div>
               </div>
             </div>
@@ -63,40 +59,74 @@ export default {
     }
   },
   methods: {
-    decrement(index) {
+    decrement(item, index) {
       if(this.items[index].quantity == 0)  return;
       this.items[index].quantity--;
       this.total -= this.items[index].price;
-      window.console.log(this.items);
+      window.console.log(this.customerId, item.productId);
+      axios.delete('http://172.16.20.98:8080/cart/reduceitem', {
+        customerId : 'fakeId', 
+        productId: item.productId
+      })
+      .then(res => {
+          window.console.log("res: ", res);
+          return res;
+        });
     },
-    increment(index) {
+    increment(item, index) {
       this.items[index].quantity++;
       this.total += this.items[index].price;
-      window.console.log(this.items);
-    },
-    checkout(e) {
-      e.preventDefault();
-      const totalAmount = this.total;
-      const items = this.items;
-      const customerId = this.customerId;
-      const data = {
-        totalAmount,
-        items,
-        customerId
-      };
-      axios.post('https://jsonplaceholder.typicode.com/posts', data)
+      item.quantity = this.items[index].quantity;
+      window.console.log(this.customerId, item);
+      axios.post('https://jsonplaceholder.typicode.com/posts', {
+        customerId: this.customerId, 
+        item: this.item
+        })
         .then(res => {
           window.console.log("res: ", res);
           return res;
         });
-    }
+    },
+    checkout(e) {
+      e.preventDefault();
+    //   const totalAmount = this.total;
+    //   const items = this.items;
+    //   const customerId = this.customerId;
+    //   const checkout_response = [];
+    //   const data = {
+    //     totalAmount,
+    //     items,
+    //     customerId
+    //   };
+    //   axios.get("http://localhost:3000/items")
+    //     .then(result => {
+    //       this.checkout_response = result.data;
+    //     },
+    //     error => {
+    //       window.console.error(error);
+    //     }
+    //   );
+    //   if (!checkout_response.status){
+    //     alert("You need to login to place an order!!");
+    //     return;
+    //   }
+    //   axios.post('https://jsonplaceholder.typicode.com/posts', {
+    //     customerId: this.customerId,
+    //     totalAmount: this.totalAmount,
+    //     data: this.data
+    //   })
+    //     .then(res => {
+    //       window.console.log("res: ", res);
+    //       return res;
+    //     });
+    // }
   },
   created() {
     this.$store.dispatch('getCartOfCustomer',{
       params: {
         cid: this.$route.params["cid"]
       }
-    })
+    });
 
     this.total = this.cart.totalAmount;
     this.items = this.cart.items;
@@ -112,7 +142,10 @@ export default {
     //   }
     // );
   }
+  // this.$router.push
 }
+}
+
 </script>
 
 <style scoped>

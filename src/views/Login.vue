@@ -26,6 +26,10 @@
       <br><br>
       <a href="#" @click="FacebookAuth" class="fa fa-facebook"></a>
       <a href="#" @click="googleauth" class="fa fa-google"></a>
+      <!-- <div class="login_options">
+        <a href="http://wwww.facebook.com" class="fb_icon"><img src="../assets/fb_icon.png" alt="fb_icon" height="50px" width="50px"></a>
+        <a href="http://www.gmail.com"><img src="../assets/gmail_icon.png" alt="gmail_icon" height="50px" width="50px"></a>
+      </div> -->
     </form>
     <div class="successful">{{ msg }}</div>
   </main>
@@ -114,14 +118,17 @@ export default {
   input[type="radio"]{
     margin-right: 10px;
   }
-  .heading{
-    text-align: center;
-    font-size: 2.5em;
+  .fb_icon{
+    margin-right: 10%;
+  }
+  .login_options {
+    display: flex;
+    justify-content: center;
   }
   form{
     text-align: center;
-    border: 2px solid black;
-    border-radius: 15px;
+    border: 1px solid black;
+    border-radius: 5px;
     padding-bottom: 40px;
     padding-top: 10px;
     margin-top: 0%;
@@ -143,25 +150,5 @@ export default {
   .successful {
     text-align: center;
     color: red;
-  }
-  .fa {
-    padding: 20px;
-    font-size: 30px;
-    width:20px;
-    border-radius: 50%;
-    text-align: center;
-    text-decoration: none;
-    margin: 5px 2px;
-  }
-  .fa:hover {
-    opacity: 0.5;
-  }
-  .fa-facebook {
-    background: #3B5998;
-    color: white;
-  }
-  .fa-google {
-    background: #dd4b39;
-    color: white;
   }
 </style>

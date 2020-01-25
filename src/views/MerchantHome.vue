@@ -1,20 +1,31 @@
 <template>
   <main class="merchanthome">
-    <div class="sidenav">
-      <a href="#">Add Product</a>
-      <a href="#">Update Product Details</a>
-      <a href="#">Order</a>
-      <a href="#">View</a>
+    <div class="main">
+      <h1>Product Details</h1>
     </div>
+    
+    <MerchantSideBar />
   </main>
 </template>
 
 <script>
+import MerchantSideBar from '@/components/MerchantSideBar.vue'
 export default {
-    name: 'MerchantHome'
+    name: 'MerchantHome',
+    components: {
+      MerchantSideBar
+    },
+    created() {
+      
+    }
 }
 </script>
 
 <style scoped>
-
+  h1 {
+    text-align: center;
+  }
+  .main {
+    margin-left: 20%
+  }
 </style>
