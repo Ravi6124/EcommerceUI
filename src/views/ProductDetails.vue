@@ -36,14 +36,15 @@
               <th>Theme</th>
               <th>Size</th>
             </tr>
-            <tr v-for="merchant in merchants" v-bind:key="merchant.merchantId">
+            <tr v-for="(merchant,i) in merchants" v-bind:key="i">
               <td>
                 <input
                   v-model="radioSelecter"
                   type="radio"
                   name="merchant"
+                  @click="changeValue(i)"
                   v-bind:value="merchant.merchantId"
-                />
+                  >
               </td>
               <td>{{merchant.merchantName}}</td>
               <td>{{merchant.cost}}</td>
@@ -81,9 +82,9 @@ export default {
       merchantId: "",
       quantity: 1,
       price: 0,
-      // radioSelecter: false,
+      radioSelecter: false,
       error:'',
-      errormsg: ''
+      errormsg: '',
     };
   },
   created() {
@@ -113,23 +114,33 @@ export default {
     }
   },
   methods: {
+    changeValue(i){
+      this.radioSelector=true
+      this.merchantId=this.merchants[i].merchantId
+      this.price=this.merchants[i].cost
+    },
     addToCart(e) {
       e.preventDefault();
-      if(!(this.radioSelector)){
+      if(!this.radioSelector){
         this.error = "Please select a merchant"
+        window.console.log('yoyo honey singh')
         return false;
       }
 
-      let price = this.merchants[this.radioSelector].cost;
-      window.console.log(price);
+      // window.console.log('merchant id is: '+this.merchantId)
+    
+  
+      // window.console.log('Price is: '+this.price);
       let cartProduct = {
         productId : this.productDetails.productId,
         productName : this.productDetails.productName,
         imageURL : this.productDetails.imageURL,
-        merchantId : this.radioSelector,
+        merchantId : this.merchantId,
         quantity : 1,
-        price : price
+        price : this.price
       }
+
+      
 
       let userId;
 
@@ -139,10 +150,14 @@ export default {
         userId = localStorage.getItem('guestId');
       }
 
+      window.console.log(userId);
+
       let data = {
         userId: userId,
         cartProduct: cartProduct
       }
+
+      
 
       this.$store.dispatch('addToCart', {
         params: {
@@ -150,10 +165,12 @@ export default {
         }
       });
 
-      let customerId = this.addToCartResponse.Cart.customerId;
+      //let customerId = this.addToCartResponse.Cart.customerId;
+
+      //this.$router.push({name: '/'});
 
       if(this.addToCartResponse.resultCode==100){
-        this.$router.push({name: 'cart', params: {customerId}})
+        this.$router.push({name: 'cart', params: {userId}})
       }else{
         this.errormsg = "Problem in adding to cart!"
       }

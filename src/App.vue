@@ -20,6 +20,9 @@ export default {
     Navbar
   },
   created() {
+    // if(localStorage.getItem('guestId')==''){
+
+    // }
     this.$store.dispatch("getGuestId");
     localStorage.setItem('guestId',this.guestId),
     localStorage.setItem('userRole',''),

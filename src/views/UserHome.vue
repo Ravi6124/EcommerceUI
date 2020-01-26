@@ -47,6 +47,8 @@ export default {
 .container {
   position: relative;
   cursor: pointer;
+  height: 200px;
+  width: 300px;
 }
 .textblock {
   position: absolute;
@@ -59,7 +61,7 @@ export default {
 .category__image {
   height: 200px;
   width: 300px;
-  opacity: 0.7;
+  opacity: 0.5;
   -webkit-transition-duration: 0.8s; /* Safari */
   transition-duration: 0.8s;
 }

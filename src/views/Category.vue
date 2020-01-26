@@ -20,9 +20,9 @@
       </div>
     </div>
     <button v-if="abc.length < totalElements" id="button" @click="incrementPageNumber()">View More</button>
-    <br />
-    <br />
-    <br />
+    <br>
+    <br>
+    <br>
   </main>
 </template>
 
@@ -82,6 +82,9 @@ h1{
   flex-wrap: wrap;
   justify-content: space-around;
   /* border: 1px solid; */
+}
+.onecategoryproduct{
+  padding: 1px;
 }
 .category > div {
   margin: 20px;

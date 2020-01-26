@@ -24,12 +24,12 @@
       Not a user?<a href="/signup">SignUp</a><br>
       <a href="/forgot">Forgot your Password?</a>
       <br><br>
-      <a href="#" @click="FacebookAuth" class="fa fa-facebook"></a>
-      <a href="#" @click="googleauth" class="fa fa-google"></a>
-      <!-- <div class="login_options">
-        <a href="http://wwww.facebook.com" class="fb_icon"><img src="../assets/fb_icon.png" alt="fb_icon" height="50px" width="50px"></a>
-        <a href="http://www.gmail.com"><img src="../assets/gmail_icon.png" alt="gmail_icon" height="50px" width="50px"></a>
-      </div> -->
+      <!-- <a href="#" @click="FacebookAuth" class="fa fa-facebook"></a>
+      <a href="#" @click="googleauth" class="fa fa-google"></a> -->
+      <div class="login_options">
+        <a @click="FacebookAuth" class="fb_icon"><img src="../assets/fb_icon.png" alt="fb_icon" height="50px" width="50px"></a>
+        <a @click="googleauth"><img src="../assets/gmail_icon.png" alt="gmail_icon" height="50px" width="50px"></a>
+      </div>
     </form>
     <div class="successful">{{ msg }}</div>
   </main>

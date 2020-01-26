@@ -101,7 +101,7 @@ export default new Vuex.Store({
       Axios
       .get('http://172.16.20.119:8091/merchant/productListingController/getMerchantByProductId/'+ params.pid)
       .then(res => {
-        window.console.log(res)
+        //window.console.log(res)
         commit('GET_MERCHANTS', res.data)
       })
     },
@@ -141,7 +141,7 @@ export default new Vuex.Store({
 
 
     signup({commit}, {params} = {}) {
-      fetch("http://172.16.20.119:8091/customer/customer", {
+      fetch("http://172.16.20.119:8091/login/customer", {
         headers: {
           "Content-Type": "application/json"
         },
@@ -201,7 +201,8 @@ export default new Vuex.Store({
         window.console.log(errorCode + errorMessage + email + credential)
       })
     },
-    // googleauth({ commit }) {
+    
+    // googleAuth({ commit }) {
     //   firebase.signInWithPopup(googleauthprovider)
     //   var idToken = this.idToken
     //   var data = {
@@ -237,6 +238,7 @@ export default new Vuex.Store({
 
     fbAuth() {
       firebase.auth().signInWithPopup(fbProvider).then(function (result) {
+        window.console.log('inside fb auth')
         var token = result.credential.accessToken;
         var user = result.user;
         window.console.log('token: ' + token + ' ,' + 'user: ' + user)
