@@ -35,6 +35,11 @@ export default {
         searchResults() {
             return this.searchResultGetter;
         }
+    },
+    methods: {
+      passingPid(pid) {
+      this.$router.push({ name: "productdetails", params: { pid } });
+    }
     }
 }
 </script>

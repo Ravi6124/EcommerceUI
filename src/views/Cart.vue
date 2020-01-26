@@ -48,9 +48,17 @@ export default {
     return {
       items: [],
       disableBtn: false,
-      total: 0,
-      customerId: 0
+      total: 0
     }
+  },
+  created() {
+    //window.console.log(this.$route.params["cid"])
+    this.$store.dispatch('getCartOfCustomer',{
+      params: {
+        cid: localStorage.getItem('userId')
+      },
+      success: this.getCartDetailsSuccess
+    });
   },
   computed: {
     ...mapGetters(["cartGetter"]),
@@ -59,15 +67,23 @@ export default {
     }
   },
   methods: {
+    getCartDetailsSuccess () {
+      //window.console.log("inside success")
+      this.total = this.cart.totalAmount;
+      this.items = this.cart.items;
+    
+    },
     decrement(item, index) {
       if(this.items[index].quantity == 0)  return;
       this.items[index].quantity--;
       this.total -= this.items[index].price;
-      window.console.log(this.customerId, item.productId);
-      axios.delete('http://172.16.20.98:8080/cart/reduceitem', {
-        customerId : 'fakeId', 
-        productId: item.productId
-      })
+      let data = {
+        userId: localStorage.getItem('userId'),
+          productId: item.productId
+      }
+      window.console.log(data);
+      // window.console.log(this.$route.params["cid"], item.productId);
+      axios.post('http://172.16.20.119:8091/cartandorder/cart/reduceitem', data)
       .then(res => {
           window.console.log("res: ", res);
           return res;
@@ -77,15 +93,32 @@ export default {
       this.items[index].quantity++;
       this.total += this.items[index].price;
       item.quantity = this.items[index].quantity;
-      window.console.log(this.customerId, item);
-      axios.post('https://jsonplaceholder.typicode.com/posts', {
-        customerId: this.customerId, 
-        item: this.item
-        })
-        .then(res => {
-          window.console.log("res: ", res);
-          return res;
-        });
+
+      // this.items[index].quantity=this.quantity;
+      let data = {
+        userId: localStorage.getItem('userId'),
+        cartProduct: this.items[index]
+      }
+      window.console.log(data);
+
+      fetch("http://172.16.20.119:8091/cartandorder/cart/item", {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify(data)
+      }).then(function(res) {
+        return res.json()
+      }).then(res => {
+        window.console.log(res)
+        // commit('GET_ADDTOCART_RESPONSE', res)
+        // success && success(res)
+      })
+      // axios.post('http://172.16.20.119:8091/cartandorder/cart/item', data)
+      //   .then(res => {
+      //     window.console.log("res: ", res);
+      //     return res;
+      //   });
     },
     checkout(e) {
       e.preventDefault();
@@ -120,27 +153,6 @@ export default {
     //       return res;
     //     });
     // }
-  },
-  created() {
-    this.$store.dispatch('getCartOfCustomer',{
-      params: {
-        cid: this.$route.params["cid"]
-      }
-    });
-
-    this.total = this.cart.totalAmount;
-    this.items = this.cart.items;
-
-    // axios({ method: "GET", url: "http://172.16.20.98:8080/cart/fakeId" })
-    // .then(result => {
-    //   this.total = result.data.totalAmount;
-    //   this.items = result.data.items;
-    //   window.console.log(this.items);
-    //   },
-    //   error => {
-    //     window.console.error(error);
-    //   }
-    // );
   }
   // this.$router.push
 }

@@ -2,8 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from 'axios'
 
-import firebase from '../firebaseConfig.js'
+// import firebase from '../firebaseConfig.js'
 import {
+  auth,
   googleauthprovider,
   fbProvider
 } from '../firebaseConfig.js'
@@ -17,12 +18,13 @@ export default new Vuex.Store({
     totalElements: 0,
     product: {},
     merchants: [],
-    guestId: null,
+    idToken: '',
     signupResponse: {},
     loginResponse: {},
     addToCartResponse: {},
     cart: [],
-    searchResults: []
+    searchResults: [],
+    loginStatus: ''
   },
   mutations: {
     GET_CATEGORIES(state, value){
@@ -38,9 +40,10 @@ export default new Vuex.Store({
     GET_MERCHANTS(state,value) {
       state.merchants = value
     },
-    SET_GUESTID(state,value) {
-      state.guestId = value
-    },
+    // SET_GUESTID(state,value) {
+    //   window.console.log('in store'+value)
+    //   state.guestId = value
+    // },
     RESET_PRODUCTS(state,value) {
       state.products = value
     },
@@ -58,6 +61,9 @@ export default new Vuex.Store({
     },
     GET_SEARCHRESULTS(state, value) {
       state.searchResults = value
+    },
+    SET_TOKEN(state, value) {
+      state.idToken = value
     }
   },
   actions: {
@@ -108,22 +114,20 @@ export default new Vuex.Store({
 
 
 
-    getGuestId( {commit} ) {
-      Axios({
-        method: 'post',
-        url: 'http://172.16.20.119:8091/login/guest', data: {
-          type: 'web'
-        }
-      })
-      .then(function(res){
-        window.console.log(res)
-        commit('SET_GUESTID', res.guestId)
-      })
-    },
+    // getGuestId( {commit} ) {
+    //   Axios({
+    //     method: 'post',
+    //     url: 'http://172.16.20.119:8091/login/guest?type=web'
+    //   })
+    //   .then(function(res){
+    //     //window.console.log(res.data.guestId)
+    //     commit('SET_GUESTID', res.data.guestId)
+    //   })
+    // },
 
 
 
-    login({commit}, {params} = {}) {
+    login({commit}, {params,success}) {
       fetch("http://172.16.20.119:8091/login/login", {
         headers: {
           "Content-Type": "application/json"
@@ -135,6 +139,7 @@ export default new Vuex.Store({
       }).then(res => {
         window.console.log(res)
         commit('GET_LOGIN_RESPONSE', res)
+        success && success(res)
       })
     },
 
@@ -157,8 +162,8 @@ export default new Vuex.Store({
 
 
 
-    addToCart({commit}, {params} = {}) {
-      fetch("...", {
+    addToCart({commit}, {params,success}) {
+      fetch("http://172.16.20.119:8091/cartandorder/cart/item", {
         headers: {
           "Content-Type": "application/json"
         },
@@ -169,121 +174,176 @@ export default new Vuex.Store({
       }).then(res => {
         //window.console.log(res)
         commit('GET_ADDTOCART_RESPONSE', res)
+        success && success(res)
       })
     },
 
 
 
-    getCartOfCustomer({commit} , {params}={}) {
+    getCartOfCustomer({commit} , {params, success}) {
       Axios
-      .get('http://172.16.20.98:8080/cart/' + params.cid)
+      .get('http://172.16.20.119:8091/cartandorder/cart/' + params.cid)
       .then(res => {
-        commit('GET_CART_OF_CUSTOMER',res)
+        window.console.log(res)
+        commit('GET_CART_OF_CUSTOMER',res.data)
+        success && success(res)
       })
     },
 
 
 
-    googleAuth() {
-      firebase.auth().signInWithPopup(googleauthprovider).then(function (result) {
-        var token = result.credential.idToken;
-        var user = result.user;
-        window.console.log('token:'  + token + ' ,' + 'user: ' + user)
-        Axios.get('http://172.16.20.114:8080/googlelogin/' + token)
-          .then(res => {window.console.log(res)
-            localStorage.setItem('userId',res.data.userId)
-          localStorage.setItem('access',res.data.accessToken) });
-      }).catch(function (error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        var email = error.email;
-        var credential = error.credential;
-        window.console.log(errorCode + errorMessage + email + credential)
-      })
-    },
-    
-    // googleAuth({ commit }) {
-    //   firebase.signInWithPopup(googleauthprovider)
-    //   var idToken = this.idToken
-    //   var data = {
-    //     'accessToken': this.accessToken,
-    //     'platform': 'google',
-    //     'idToken': '',
-    //     'customerEmail': this.username,
-    //     'customerPassword': this.password,
-    //   }
-    //   window.console.log('this is access token'+ data.idToken);
-    //   Axios({
-    //     method: 'post',
-    //     url: '.....', idToken
+    // googleAuth() {
+    //   firebase.auth().signInWithPopup(googleauthprovider).then(function (result) {
+    //     var token = result.credential.idToken;
+    //     var user = result.user;
+    //     window.console.log('token:'  + token + ' ,' + 'user: ' + user)
+    //     Axios.get('http://172.16.20.114:8080/googlelogin/' + token)
+    //       .then(res => {window.console.log(res)
+    //         localStorage.setItem('userId',res.data.userId)
+    //       localStorage.setItem('access',res.data.accessToken) });
+    //   }).catch(function (error) {
+    //     var errorCode = error.code;
+    //     var errorMessage = error.message;
+    //     var email = error.email;
+    //     var credential = error.credential;
+    //     window.console.log(errorCode + errorMessage + email + credential)
     //   })
-    //     .then(function (result) {
-    //       var token = result.credential.accessToken;
-    //       var user = result.user;
-    //       window.console.log("token: " + token + " ," + "user: " + user)
-    //       //window.console.log(response)
-    //       commit('SET_TOKEN', result.token)
-    //       commit(result.user)
-    //       commit('SET_PLATFORM', 'GOOGLE')
-    //     }).catch(function (error) {
-    //       var errorCode = error.code;
-    //       var errorMessage = error.message;
-    //       var email = error.email;
-    //       var credential = error.credential;
-    //       window.console.log(errorCode + errorMessage + email + credential)
-    //     })
+    // },
+    
+    googleAuth() {
+      // let role = params.role
+      auth.signInWithPopup(googleauthprovider)
+      .then(res =>{
+        window.console.log(res.credential.idToken)
+        let idToken = res.credential.idToken
+        var data = {
+          accessToken: idToken,
+          role: 'customer',
+          guestId: localStorage.getItem('userId'),
+          loginSource: 'google',
+          type: 'web'
+        }
+
+        Axios({
+          method: 'post',
+          url: 'http://172.16.20.119:8091/login/login/googlelogin', data
+        })
+        .then(res => {
+          window.console.log(res);
+        })
+      })
+      // var idToken = this.idToken
+      // window.console.log(this.idToken)
+
+      // var data = {
+      //   accessToken: this.idToken,
+      //   role: params.role,
+      //   guestId: localStorage.getItem('guestId'),
+      //   loginSource: 'google',
+      //   type: 'web'
+      // }
+      // window.console.log('this is access token'+ data.idToken);
+      // Axios({
+      //   method: 'post',
+      //   url: 'http://172.16.20.119:8091/login/login', data
+      // })
+      //   .then(function (result) {
+      //     var token = result.credential.accessToken;
+      //     var user = result.user;
+      //     window.console.log("token: " + token + " ," + "user: " + user)
+      //     //window.console.log(response)
+      //     commit('SET_TOKEN', result.token)
+      //     commit(result.user)
+      //     commit('SET_PLATFORM', 'GOOGLE')
+      //   }).catch(function (error) {
+      //     var errorCode = error.code;
+      //     var errorMessage = error.message;
+      //     var email = error.email;
+      //     var credential = error.credential;
+      //     window.console.log(errorCode + errorMessage + email + credential)
+      //   })
+    },
+
+
+
+    // fbAuth() {
+    //   firebase.auth().signInWithPopup(fbProvider).then(function (result) {
+    //     window.console.log('inside fb auth')
+    //     var token = result.credential.accessToken;
+    //     var user = result.user;
+    //     window.console.log('token: ' + token + ' ,' + 'user: ' + user)
+    //     Axios.get('http://172.16.20.114:8080/facebooklogin/' + token)
+    //     .then(res => {
+    //       window.console.log(res)
+    //       localStorage.setItem('userId',res.data.userId)
+    //       localStorage.setItem('access',res.data.accessToken) });
+    //   }).catch(function (error) {
+    //     var errorCode = error.code;
+    //     var errorMessage = error.message;
+    //     var email = error.email;
+    //     var credential = error.credential;
+    //     window.console.log(errorCode + errorMessage + email + credential)
+    //   })
     // },
 
 
 
-    fbAuth() {
-      firebase.auth().signInWithPopup(fbProvider).then(function (result) {
-        window.console.log('inside fb auth')
-        var token = result.credential.accessToken;
-        var user = result.user;
-        window.console.log('token: ' + token + ' ,' + 'user: ' + user)
-        Axios.get('http://172.16.20.114:8080/facebooklogin/' + token)
+
+    fbAuth({commit} , {success}) {
+      auth.signInWithPopup(fbProvider)
+      .then(res => {
+        window.console.log(res);
+
+
+        let accessToken = res.credential.accessToken
+        var data = {
+          accessToken: accessToken,
+          role: 'customer',
+          guestId: localStorage.getItem('userId'),
+          loginSource: 'facebook',
+          type: 'web'
+        }
+        Axios({
+          method: 'post',
+          url: 'http://172.16.20.119:8091/login/login/facebooklogin', data
+        })
         .then(res => {
-          window.console.log(res)
-          localStorage.setItem('userId',res.data.userId)
-          localStorage.setItem('access',res.data.accessToken) });
-      }).catch(function (error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        var email = error.email;
-        var credential = error.credential;
-        window.console.log(errorCode + errorMessage + email + credential)
+          window.console.log(res);
+          commit('GET_LOGIN_RESPONSE', res.data)
+          success && success(res)
+        })
       })
+
+
+      // var data = {
+      //   'accessToken': this.token,
+      //   'platform': 'facebook',
+      //   'idToken': '',
+      //   'customerEmail': this.username,
+      //   'customerPassword': this.password,
+      // }
+      // Axios({
+      //   method: 'post',
+      //   url: '.....', data
+      // })
+      //   .then(function (result) {
+      //     var token = result.credential.accessToken;
+      //     var user = result.user;
+      //     //window.console.log(response)
+      //     window.console.log("token: " + token + " ," + "user: " + user)
+      //     commit('SET_TOKEN', result.token)
+      //     commit(result.user)
+      //     commit('SET_PLATFORM', 'FACEBOOK')
+      //   }).catch(function (error) {
+      //     var errorCode = error.code;
+      //     var errorMessage = error.message;
+      //     var email = error.email;
+      //     var credential = error.credential;
+      //     window.console.log(errorCode + errorMessage + email + credential)
+      //   })
     },
-    // fbAuth({ commit }) {
-    //   firebase.auth().signInWithPopup(fbProvider)
-    //   var data = {
-    //     'accessToken': this.token,
-    //     'platform': 'facebook',
-    //     'idToken': '',
-    //     'customerEmail': this.username,
-    //     'customerPassword': this.password,
-    //   }
-    //   Axios({
-    //     method: 'post',
-    //     url: '.....', data
-    //   })
-    //     .then(function (result) {
-    //       var token = result.credential.accessToken;
-    //       var user = result.user;
-    //       //window.console.log(response)
-    //       window.console.log("token: " + token + " ," + "user: " + user)
-    //       commit('SET_TOKEN', result.token)
-    //       commit(result.user)
-    //       commit('SET_PLATFORM', 'FACEBOOK')
-    //     }).catch(function (error) {
-    //       var errorCode = error.code;
-    //       var errorMessage = error.message;
-    //       var email = error.email;
-    //       var credential = error.credential;
-    //       window.console.log(errorCode + errorMessage + email + credential)
-    //     })
-    // }
+
+
     // getProductsByCategory({commit}, {params} = {}){
     //   // window.console.log("PageNumber:", params.pageNum);
     //   Axios
@@ -301,6 +361,8 @@ export default new Vuex.Store({
     //     commit('GET_PRODUCTS', res.data)
     //   })
     // },
+
+
     getSearchResult({commit} , {params} = {}) {
       Axios
       .get('http://172.16.20.110:8082/search/searchFunction/10/'+ params.pageNum +' /' + params.skey)
@@ -326,9 +388,9 @@ export default new Vuex.Store({
     merchantsGetter(state) {
       return state.merchants;
     },
-    guestIdGetter(state) {
-      return state.guestId;
-    },
+    // guestIdGetter(state) {
+    //   return state.guestId;
+    // },
     signupResponseGetter(state) {
       return state.signupResponse;
     },
@@ -343,6 +405,9 @@ export default new Vuex.Store({
     },
     searchResultGetter(state) {
       return state.searchResults;
+    },
+    loginStatusGetter(state) {
+      return state.loginStatus
     }
   },
   modules: {

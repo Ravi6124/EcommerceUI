@@ -1,23 +1,38 @@
 <template>
   <nav id="nav" class="navbar">
-    <router-link to="/">
+    <router-link to="/" v-if="!loginStatusGetter">
+      <i class="fa fa-home"></i>
+    </router-link>
+    <router-link to="/" v-if="loginStatusGetter=='customer'">
+      <i class="fa fa-home"></i>
+    </router-link>
+    <router-link to="/merchanthome" v-if="loginStatusGetter=='merchant'">
       <i class="fa fa-home"></i>
     </router-link>
     <div class="search">
-      <input type="text" class="search_input" placeholder="Search.." @keypress.enter="search" v-model="searchKey" />
+      <input
+        type="text"
+        class="search_input"
+        placeholder="Search.."
+        @keypress.enter="search"
+        v-model="searchKey"
+      />
       <button class="fas fa_search" @click="search()">&#xf002;</button>
     </div>
     <div class="right_corner">
-      <router-link to="/cart" class="fas fa_cart">&#xf07a;</router-link>
-      <a class="login" href="/login">
+      <router-link to="/cart/:cid" class="fas fa_cart">&#xf07a;</router-link>
+      <a v-if="!loginStatusGetter" class="login" href="/login">
         <span class="fas fa-sign-in-alt"></span> Login
+      </a>
+      <a class="login" v-else-if="loginStatusGetter=='customer'" href @click="logout">
+        <span class="fas fa-sign-in-alt"></span> Logout
       </a>
     </div>
   </nav>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 //const axios = require("axios");
 export default {
   name: "Navbar",
@@ -28,22 +43,34 @@ export default {
       pageNumber: 0
     };
   },
+  computed: {
+    // loginStatus() {
+    //   window.console.log(this.loginStatusGetter)
+    //   return this.loginStatusGetter;
+    // }
+    ...mapGetters(["loginStatusGetter"])
+  },
   methods: {
-    ...mapActions([
-      'getSearchResult'
-    ]),
+    // ...mapGetters([
+    //   'loginStatusGetter'
+    // ]),
+    ...mapActions(["getSearchResult"]),
+    logout() {
+      localStorage.clear();
+      this.$router.push({ name: "userhome" });
+    },
     search() {
       // window.console.log(
       //   `172.16.20.110:8082/search/searchFunction/${this.pageSize}/${this.pageNumber}/${this.searchKey}`
       // );
-     let skey= this.searchKey
-     this.getSearchResult({
+      let skey = this.searchKey;
+      this.getSearchResult({
         params: {
           skey: this.searchKey,
-          pageNum: 0 
+          pageNum: 0
         }
-     })
-     this.$router.push({name: 'searchresult', params: {skey} });
+      });
+      this.$router.push({ name: "searchresult", params: { skey } });
 
       // axios.get(`http://172.16.20.110:8082/search/searchFunction/${this.pageSize}/${this.pageNumber}/${this.searchKey}`).then(
       //   result => {

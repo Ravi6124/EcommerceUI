@@ -38,7 +38,8 @@
       </div>
       <!-- <input type="submit" class="myBtn" :class="{'disabled': disableBtn}" @click.prevent="postUserData()"> -->
       <button class="myBtn" @click.prevent="postUserData()">SignUp</button>
-      <br />
+      <br /><br>
+      <a href="/login">Login</a>
       <br />
     </form>
     <br />

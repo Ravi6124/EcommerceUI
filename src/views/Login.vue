@@ -43,7 +43,8 @@ export default {
       return {
         items: [],
         disableBtn: false,
-        msg: ''
+        msg: '',
+        loginSource: ''
       }
     },
     computed: {
@@ -55,13 +56,47 @@ export default {
     methods: {
       googleauth: function() {
       //window.console.log("IN");
-      this.$store.dispatch("googleAuth");
+      // this.loginSource= 'google';
+      if(!(this.role)){
+          this.msg = "Please select customer";
+          return false;
+        }
+      this.$store.dispatch("googleAuth",{
+        params: {
+          role: this.role
+        },
+        success: this.loginSuccess
+      });
       },
       FacebookAuth: function() {
+        // this.loginSource = 'facebook';
         // window.console.log(this.$store)
-        this.$store.dispatch("fbAuth");
+        if(!(this.role)){
+          this.msg = "Please select customer";
+          return false;
+        }
+        this.$store.dispatch("fbAuth",{
+          success: this.loginSuccess
+        });
+      },
+      loginSuccess() {
+        if(this.loginRes.statusCode==800){
+          this.msg = this.loginRes.message;
+        }else if(this.loginRes.statusCode==1000){
+          localStorage.setItem('userEmail', this.loginRes.emailAddress)
+          localStorage.setItem('userRole', this.role)
+          localStorage.setItem('userId', this.loginRes.userId)
+          //store email in local storage
+          //if customer is logged in redirect to customer portion
+          //if merchant is logged in redirect to merchant home
+          this.$store.state.loginStatus = localStorage.getItem('userRole');
+          //this.$router.push({name : 'userhome'})
+          this.$router.go(-1);
+        }
       },
       login() {
+        this.loginSource = 'local'
+
         if (!(this.password && this.email && this.role)) {
           window.console.log('function call!!')
           this.msg = 'All above fields are required';
@@ -76,26 +111,20 @@ export default {
         emailAddress: email,
         password: password,
         role: role,
-        guestId: localStorage.getItem('guestId')
+        guestId: localStorage.getItem('userId'),
+        loginSource: this.loginSource,
+        type: 'web'
         };
 
+          window.console.log(data)
         this.$store.dispatch('login', {
           params: {
             data: data
-          }
+          },
+          success: this.loginSuccess
         });
 
-        if(this.loginRes.statusCode==800){
-          this.msg = this.loginRes.message;
-        }else if(this.loginRes.statusCode==1000){
-          localStorage.setItem('userEmail', this.loginRes.emailAddress)
-          localStorage.setItem('userRole', this.role)
-          localStorage.setItem('userId', this.loginRes.userId)
-          //store email in local storage
-          //if customer is logged in redirect to customer portion
-          //if merchant is logged in redirect to merchant home
-          this.$router.push({name : 'UserHome'})
-        }
+        
 
       }
     }

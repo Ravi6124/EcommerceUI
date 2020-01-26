@@ -59,9 +59,9 @@
           <div>
             <button class="myBtn" @click.prevent="addToCart($event)">Add To Cart</button>
           </div>
-          <div>
+          <!-- <div>
             <button class="myBtn">Buy Now</button>
-          </div>
+          </div> -->
         </div>
         <div class="error">{{ errormsg }}</div>
       </div>
@@ -119,11 +119,21 @@ export default {
       this.merchantId=this.merchants[i].merchantId
       this.price=this.merchants[i].cost
     },
+    productDetailsSuccess() {
+       let cid = localStorage.getItem('userId');
+
+window.console.log('cid inside pd: '+cid)
+      if(this.addToCartResponse.resultCode==100){
+        this.$router.push({name: 'cart', params: {cid}})
+      }else{
+        this.errormsg = "Problem in adding to cart!"
+      }
+    },
     addToCart(e) {
       e.preventDefault();
       if(!this.radioSelector){
         this.error = "Please select a merchant"
-        window.console.log('yoyo honey singh')
+        //window.console.log('yoyo honey singh')
         return false;
       }
 
@@ -142,38 +152,37 @@ export default {
 
       
 
-      let userId;
+      let userId = localStorage.getItem('userId')
 
-      if(localStorage.getItem('userRole')=='customer' && localStorage.getItem('userId')!=''){
-        userId = localStorage.getItem('userId');
-      }else{
-        userId = localStorage.getItem('guestId');
-      }
+      // if(localStorage.getItem('userRole')=='customer' && localStorage.getItem('userId')!=''){
+      //   userId = localStorage.getItem('userId');
+      // }else{
+      //   userId = localStorage.getItem('guestId');
+      // }
 
-      window.console.log(userId);
-
+      
       let data = {
         userId: userId,
         cartProduct: cartProduct
       }
 
-      
+      //window.console.log(data);
+
 
       this.$store.dispatch('addToCart', {
         params: {
           data: data
-        }
+        },
+        success: this.productDetailsSuccess
       });
 
       //let customerId = this.addToCartResponse.Cart.customerId;
 
       //this.$router.push({name: '/'});
 
-      if(this.addToCartResponse.resultCode==100){
-        this.$router.push({name: 'cart', params: {userId}})
-      }else{
-        this.errormsg = "Problem in adding to cart!"
-      }
+      //window.console.log(this.addToCartResponse.resultCode)
+
+     
 
     }
   }
