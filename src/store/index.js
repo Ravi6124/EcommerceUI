@@ -25,6 +25,32 @@ export default new Vuex.Store({
       });
     }
   },
+  facebooklogin(context, payload) {
+    fetch('http://localhost:3000/items', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+      .then(res => res.json())
+      .then(res => {
+        context.commit('SET_USER_DETAILS', res)
+      })
+  },
+  gmaillogin (context, payload) {
+    fetch('http://localhost:3000/items', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+      .then(res => res.json())
+      .then(res => {
+        context.commit('SET_USER_DETAILS',res)
+      })
+  },
   modules:{
 
   },

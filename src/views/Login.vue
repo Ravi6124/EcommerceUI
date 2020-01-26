@@ -6,22 +6,20 @@
     </div>
     <br>
     <div class="box">
-      <!-- <img src="signuplogo.jpeg" width="60px" height="60px" > -->
       <table>
 
       </table>
       <label>Email</label>
-      <input type="text" placeholder="Enter name" ><br><br>
+      <input v-model="Email" type="text" placeholder="Enter name" ><br><br>
       <label>Password</label>
-      <input type="password" placeholder="Enter password"><br><br>
+      <input v-model="password" type="password" placeholder="Enter password"><br><br>
       <div class="user_radios">
-        <input type="radio" name="user" value="M">Merchant
-        <input type="radio" name="user" value="C">Customer
-        <!-- <input type="radio" name="user">User<br><br> -->
+        <input @change="updateType" type="radio" name="user" value="M" >Merchant
+        <input @change="updateType1" type="radio" name="user" value="C">Customer
       </div>
-      <button>Sign In</button><br><br>
+      <button @click="submit">Sign In</button><br><br>
       Not a user?<a href="#">SignUp</a><br>
-      <a href="#">Forgot your Password</a>
+      <button @click="$router.push('/forgotpassword')">forgotpassword ?</button>
       <br><br>
       <facebook></facebook>
       (OR)<br>
@@ -38,13 +36,52 @@ export default {
     name: 'login',
     data: function () {
         return {
-            
+            Email: '',
+            password: '',
+            loginType: 'customer',
+            loginType1:'merchant'
         }
     },
     components: {
-      Facebook,gmail
+    Facebook, gmail
+    },
+methods:
+    {
+        onSignIn:  function(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            window.console.log('ID: ' + profile.getId()); 
+            window.console.log('Name: ' + profile.getName());
+            window.console.log('Image URL: ' + profile.getImageUrl());
+            window.console.log('Email: ' + profile.getEmail()); 
+        },
+        submit() {
+            let data = {
+                email: this.username,
+                password: this.password,
+                loginType: this.loginType
+            }
+            this.$store.dispatch('loginUser', {
+                data: data,
+                success: function () {
+                    window.console.log('successful...');
+                },
+                fail: function () {
+                    window.console.log('failed o.');
+                }
+            })
+        },
+updateType () {
+          localStorage.setItem('loginType',this.loginType1)
+          
+        },
+        updateType1() {
+          localStorage.setItem('loginType',this.loginType)
+          
+        }
+      }
+
     }
-}
+
 </script>
 
 <style scoped>

@@ -13,17 +13,15 @@
     <script>
       FB.init({
             appId  : '594649811328956',
-            status : true, // check login status
-            cookie : true, // enable cookies to allow the server to access the session
-            xfbml  : true,  // parse XFBML
+            status : true, 
+            cookie : true, 
+            xfbml  : true,  
             oauth : true
         });
-    // Load the SDK Asynchronously
     (function(d){
        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
        if (d.getElementById(id)) {return;}
        js = d.createElement('script'); js.id = id; js.async = true;
-      //  js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1\";
        ref.parentNode.insertBefore(js, ref);
      }(document));
     </script>
@@ -33,6 +31,5 @@
       <strong>We're sorry but ecommerce doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
   </body>
 </html>

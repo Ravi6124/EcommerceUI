@@ -13,7 +13,7 @@ export default {
   data () {
     return {
       fbSignInParams: {
-        scope: 'email,user_likes',
+        scope: 'email,user_likes', 
         return_scopes: true
       }
     }
@@ -21,15 +21,22 @@ export default {
   methods: {
     onSignInSuccess (response) {
       window.FB.api('/me', dude => {
-        window.console.log(`Good to see you, ${dude.name}.`)
+        window.console.log(`HELLOO, ${dude.name}.`)
       })
-      window.console.log(response)
+      window.console.log('hello...!',response.authResponse)
+      const payload = {
+          accessToken: response.authResponse.accessToken,
+          loginType: localStorage.getItem('loginType')
+      }
+      window.console.log(payload)
+      this.$store.dispatch('fb login',payload)
     },
     onSignInError (error) {
-      window.console.log('OH NOES', error)
+      window.console.log('wrong details', error)
     }
   }
 }
+
 </script>
 <style>
 .fb-signin-button  {

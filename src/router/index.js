@@ -34,6 +34,11 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
+    path: '/forgotpassword',
+    name: 'forgotpassword',
+    component: () => import('../views/forgotpassword.vue')
+  },
+  {
     path: '/merchantaddtolist',
     name: 'merchantaddtolist',
     component: () => import('../views/MerchantAddToList.vue')

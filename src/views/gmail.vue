@@ -16,23 +16,25 @@ export default {
      }
   },
   methods:{
-    onSignInSuccess (googleUser)
+    onSignInSuccess (response)
     {
-      //const data={acessToken:googleUser.uc.access_token}
-      window.console.log(googleUser)
-      //this.$store.dispatch('sendToken',{data})
+      window.console.log("welcome")
+      window.console.log(response)
+      const payload = {
+          accessToken: response.uc.id_token,
+          loginType: localStorage.getItem('loginType')
+      }
+       window.console.log(payload)
+      this.$store.dispatch('gmaillogin',payload)
     },
-    onSignInError (error) {
-      // `error` contains any error occurred.
-      window.console.log('OH NOES', error)
+   onSignInError (error) {
+      window.console.log(' Try Again', error)
     }
 }
-//}
 }
  </script>
  <style>
 .g-signin-button {
-  /* This is where you control how the button looks. Be creative! */
   display: inline-block;
    padding: 5px 10px;
   border-radius: 5px;
