@@ -7,16 +7,16 @@
           <table>
           <tr>
             <td><span>Upload Image: </span></td>
-            <td><input type="text" name="image"></td>
+            <td><input type="text" name="image" v-bind="imageURL"></td>
           </tr><br>
           <tr>
             <td><span>Description: </span></td>
-            <td><textarea name="description" id="description" cols="50" rows="4"></textarea></td>
+            <td><textarea name="description" cols="50" rows="4" v-model="description"></textarea></td>
           </tr>
         </table><br>
         <button class="myBtn" @click="addproduct">Add Product</button>
-      </div>
         </div>
+      </div>
         
       <MerchantSideBar />
   </main>
@@ -24,27 +24,35 @@
 
 <script>
   import MerchantSideBar from '@/components/MerchantSideBar.vue'
-import { mapGetters } from 'vuex';
-  // const axios = require('axios').default;
+  import { mapGetters } from 'vuex';
+  const axios = require('axios').default;
   export default {
-      name: 'MerchantAddToProduct',
-      computed: {
-        ...mapGetters(["categoriesGetter"]),
-        categories() {
-          return this.categoriesGetter;
-        }
-      },
-      components: {
-        MerchantSideBar
-      },
-      created() {
-
-      },
-      methods: {
-        addproduct() {
-          this.$router.push('/merchantaddtolist');
-        }
+    name: 'MerchantAddToProduct',
+    data: function() {
+      
+    },
+    computed: {
+      ...mapGetters(["categoriesGetter"]),
+      categories() {
+        return this.categoriesGetter;
       }
+    },
+    components: {
+      MerchantSideBar
+    },
+    created() {
+
+    },
+    methods: {
+      addproduct() {
+        axios.get('http://172.16.20.119:8091/product/product/category') // re-check api link
+          .then(result => {
+            this.$store.commit('SET_PRODUCTINFO', ) // change this data
+            this.categories = result.data;
+        })
+        // this.$router.push('/merchantaddtolist');
+      }
+    }
   }
 </script>
 

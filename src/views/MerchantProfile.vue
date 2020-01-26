@@ -1,7 +1,10 @@
 <template>
   <main class="merchantprofile">
     <div class="main">
-      <h1>Profile</h1>
+      <h1>Profile</h1><hr>
+      <div class="container">
+        
+      </div>
     </div>
 
     <MerchantSideBar />

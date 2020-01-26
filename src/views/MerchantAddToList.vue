@@ -14,10 +14,10 @@
             <td>Price:</td>
             <td><input type="text" name="price" id="price"></td>
           </tr>
-          <!-- <tr v-for="(attribute, index) in attributes" v-bind:key="index">
+          <tr v-for="(attribute, index) in attributes" v-bind:key="index">
             <td>{{ attribute[index] }}</td>
             <td><input type="text" :name="attribute[index]" :id="attribute[index]"></td>
-          </tr> -->
+          </tr>
         </table><br>
         <button class="myBtn">Add Product</button>
       </div>
@@ -38,20 +38,21 @@
     },
     data: function(){
       return {
-        productsAdd: [],
+        categoryInfo: [],
         attributes: []
       }
     },
     computed: {
       ...mapGetters([
-        'productsAdd'
+        'categoryInfo',
+        ''
       ])
     },
     created() {
     },
     mounted() {
-      this.attributes = this.productsAdd.attributeList
-      window.console.log(this.productsAdd);
+      this.attributes = this.categoryInfo.attributeList
+      window.console.log(this.categoryInfo);
     }
   }
 </script>
@@ -79,6 +80,5 @@
   input[type="text"] {
     width: 140%;
     border-radius: 3px;
-
   }
 </style>

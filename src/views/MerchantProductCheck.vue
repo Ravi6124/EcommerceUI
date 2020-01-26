@@ -31,42 +31,42 @@
   import MerchantSideBar from '@/components/MerchantSideBar.vue'
   const axios = require('axios').default;
   export default {
-      name: 'MerchantProductCheck',
-      components: {
-        MerchantSideBar
-      },
-      data: function(){
-        return {
-          categories: [],
-          productId: '',
-          product_name: '',
-          select_category: ''
-        }
-      },
-      created() {
-        axios.get('http://172.16.20.119:8091/product/product/category')
-        .then(result => {
-          this.$store.commit('SET_PRODUCT', result.data)
-          this.categories = result.data;
-        })
-      },
-      methods: {
-        check() {
-          //window.console.log(this.product_name)
-          //window.console.log(this.select_category)
-          let pname = this.product_name
-          let pcategory = this.select_category
-          axios.get(`http://172.16.20.119:8091/product/product/present/${this.product_name}`)
-          .then(result => {
-            this.productId = result.data;
-            if (String(this.productId) == "#")
-              this.$router.push({ name: 'merchantaddtoproduct', params: {pname, pcategory}} );
-            else
-              this.$router.push({name: 'merchantaddtolist', params: {pname, pcategory}});
-          })
-          //window.console.log(`${this.select_category}`);
-        }
+    name: 'MerchantProductCheck',
+    components: {
+      MerchantSideBar
+    },
+    data: function(){
+      return {
+        categories: [],
+        productId: '',
+        product_name: '',
+        select_category: ''
       }
+    },
+    created() {
+      axios.get('http://172.16.20.119:8091/product/product/category')
+      .then(result => {
+        this.$store.commit('SET_CATEGORYINFO', result.data)
+        this.categories = result.data;
+      })
+    },
+    methods: {
+      check() {
+        //window.console.log(this.product_name)
+        //window.console.log(this.select_category)
+        let pname = this.product_name
+        let pcategory = this.select_category
+        axios.get(`http://172.16.20.119:8091/product/product/present/${this.product_name}`)
+        .then(result => {
+          this.productId = result.data;
+          if (String(this.productId) == "#")
+            this.$router.push({ name: 'merchantaddtoproduct', params: {pname, pcategory}});
+          else
+            this.$router.push({name: 'merchantaddtolist', params: {pname, pcategory}});
+        })
+        //window.console.log(`${this.select_category}`);
+      }
+    }
   }
 </script>
 

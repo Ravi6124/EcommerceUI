@@ -11,7 +11,7 @@ export default new Vuex.Store({
     totalElements: 0,
     product: {},
     searchResults: [],
-    productsAdd: []
+    categoryInfo: []
   },
   mutations: {
     GET_CATEGORIES(state, value){
@@ -27,8 +27,8 @@ export default new Vuex.Store({
     GET_SEARCHRESULTS(state, value) {
       state.searchResults = value
     },
-    SET_PRODUCT(state, data) {
-      state.productsAdd = data
+    SET_CATEGORYINFO(state, data) {
+      state.categoryInfo = data
     }
   },
   actions: {
@@ -80,8 +80,8 @@ export default new Vuex.Store({
     searchResultGetter(state) {
       return state.searchResults;
     },
-    productsAdd (state) {
-      return state.productsAdd
+    categoryInfo (state) {
+      return state.categoryInfo
     }
   },
   modules: {
