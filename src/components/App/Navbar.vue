@@ -9,7 +9,7 @@
     <router-link to="/merchanthome" v-if="loginStatusGetter=='merchant'">
       <i class="fa fa-home"></i>
     </router-link>
-    <div class="search">
+    <div class="search" v-if="!(loginStatusGetter=='merchant')">
       <input
         type="text"
         class="search_input"
@@ -20,12 +20,36 @@
       <button class="fas fa_search" @click="search()">&#xf002;</button>
     </div>
     <div class="right_corner">
-      <router-link to="/cart/:cid" class="fas fa_cart">&#xf07a;</router-link>
+      <router-link
+        to="/cart/:cid"
+        class="fas fa_cart"
+        v-if="!(loginStatusGetter=='merchant')"
+      >&#xf07a;</router-link>
       <a v-if="!loginStatusGetter" class="login" href="/login">
         <span class="fas fa-sign-in-alt"></span> Login
       </a>
-      <a class="login" v-else-if="loginStatusGetter=='customer'" href @click="logout">
-        <span class="fas fa-sign-in-alt"></span> Logout
+      <a class="login" v-else-if="loginStatusGetter=='customer'" href>
+        <span class="fas fa-sign-in-alt"></span>
+        <div class="dropdown">
+          <button class="dropbtn">{{this.user}}</button>
+          <div class="dropdown-content">
+            <a href="/userprofile" @click="viewProfile">View Profile</a>
+            <a href="#" @click="logout">Logout</a>
+            <!-- <a href="#">Link 3</a> -->
+          </div>
+        </div>
+        <!-- <span class="fas fa-sign-in-alt"></span> Logout -->
+      </a>
+      <a class="login" v-else-if="loginStatusGetter=='merchant'" href @click="logout">
+        <span class="fas fa-sign-in-alt"></span>
+        <div class="dropdown">
+          <button class="dropbtn">{{this.user}}</button>
+          <div class="dropdown-content">
+            <a href="/merchantprofile" @click="viewProfile">View Profile</a>
+            <a href="#" @click="logout">Logout</a>
+            <!-- <a href="#">Link 3</a> -->
+          </div>
+        </div>
       </a>
     </div>
   </nav>
@@ -40,7 +64,8 @@ export default {
     return {
       searchKey: "",
       pageSize: 10,
-      pageNumber: 0
+      pageNumber: 0,
+      user: localStorage.getItem('userEmail')
     };
   },
   computed: {
@@ -56,7 +81,11 @@ export default {
     // ]),
     ...mapActions(["getSearchResult"]),
     logout() {
-      localStorage.clear();
+      // localStorage.clear();
+      localStorage.setItem('userRole','');
+      localStorage.setItem('userEmail','');
+      localStorage.setItem('userId','');
+      this.$store.state.loginStatus = localStorage.getItem('userRole');
       this.$router.push({ name: "userhome" });
     },
     search() {
@@ -109,9 +138,10 @@ button:hover {
 }
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   height: 40px;
   text-align: center;
+  margin-top: 10px; 
 }
 .login {
   font-size: 150%;
@@ -127,5 +157,43 @@ button:hover {
   border-radius: 3px;
   padding-right: 10px;
 }
+
+
+
+
+.dropbtn {
+  /* background-color: #4CAF50; */
+  color:rgb(63, 9, 63);
+  padding: 10px;
+  font-size: 20px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: rgb(63, 9, 63);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: rgba(63, 9, 63, 0.281);}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: white;}
 </style>
 
