@@ -48,11 +48,13 @@
       items: [],
       disableBtn: false,
       total: 0,
-      customerId: 0
+      customerId: 'fakeId',
+      productId: '1'
     }
   },
   created() {
-    axios.get('http://172.16.20.98:8080/cart/fakeId')
+    // get products present in cart
+    axios.get(`http://172.16.20.119:8091/cartandorder/cart/${this.customerId}`)
     .then(result => {
       window.console.log(result.data.items);
       this.items = result.data.items;
@@ -69,13 +71,10 @@
       this.items[index].quantity--;
       this.total -= this.items[index].price;
       window.console.log(this.customerId, item.productId);
-      axios.delete('http://172.16.20.98:8080/cart/reduceitem', {
-        customerId : 'fakeId', 
-        productId: item.productId
-      })
-      .then(res => {
-          window.console.log("res: ", res);
-          return res;
+      axios.delete(`http://172.16.20.119:8091/cartandorder/reduceitem/${this.customerId}/${this.productId}`)
+        .then(res => {
+            window.console.log("res: ", res);
+            return res;
         });
     },
     increment(item, index) {
@@ -83,10 +82,7 @@
       this.total += this.items[index].price;
       item.quantity = this.items[index].quantity;
       window.console.log(this.customerId, item);
-      axios.post('https://jsonplaceholder.typicode.com/posts', {
-        customerId: this.customerId, 
-        item: this.item
-        })
+      axios.post(`http://172.16.20.119:8091/cartandorder/cart/${this.customerId}`)
         .then(res => {
           window.console.log("res: ", res);
           return res;
@@ -102,6 +98,7 @@
         customerId,
         data
       };
+      // isLogedIn() does not exist now
       axios.get("http://localhost:3000/items")
         .then(result => {
           this.checkout_response = result.data;
@@ -111,14 +108,11 @@
         }
       );
       if (!checkout_response.status){
-        alert("You need to login to place an order!!");
+        this.$router.push('/login')
         return;
       }
-      axios.post('https://jsonplaceholder.typicode.com/posts', {
-        customerId: this.customerId,
-        totalAmount: this.totalAmount,
-        data: this.data
-      })
+      // place order api
+      axios.post(`http://172.16.20.119:8091/cartandorder/order/place/${this.customerId}/${this.totalAmout}/${this.data}`)
         .then(res => {
           window.console.log("res: ", res);
           return res;

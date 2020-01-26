@@ -46,20 +46,25 @@
       created() {
         axios.get('http://172.16.20.119:8091/product/product/category')
         .then(result => {
+          this.$store.commit('SET_PRODUCT', result.data)
           this.categories = result.data;
         })
       },
       methods: {
         check() {
+          //window.console.log(this.product_name)
+          //window.console.log(this.select_category)
+          let pname = this.product_name
+          let pcategory = this.select_category
           axios.get(`http://172.16.20.119:8091/product/product/present/${this.product_name}`)
           .then(result => {
             this.productId = result.data;
             if (String(this.productId) == "#")
-              this.$router.push('/merchantaddtoproduct');
+              this.$router.push({ name: 'merchantaddtoproduct', params: {pname, pcategory}} );
             else
-              this.$router.push('/merchantaddtolist');
+              this.$router.push({name: 'merchantaddtolist', params: {pname, pcategory}});
           })
-          window.console.log(`${this.select_category}`);
+          //window.console.log(`${this.select_category}`);
         }
       }
   }

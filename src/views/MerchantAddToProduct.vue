@@ -24,9 +24,16 @@
 
 <script>
   import MerchantSideBar from '@/components/MerchantSideBar.vue'
+import { mapGetters } from 'vuex';
   // const axios = require('axios').default;
   export default {
       name: 'MerchantAddToProduct',
+      computed: {
+        ...mapGetters(["categoriesGetter"]),
+        categories() {
+          return this.categoriesGetter;
+        }
+      },
       components: {
         MerchantSideBar
       },

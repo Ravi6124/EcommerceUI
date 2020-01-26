@@ -34,12 +34,12 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
-    path: '/merchantaddtolist',
+    path: '/merchantaddtolist/:pname/:pcategory',
     name: 'merchantaddtolist',
     component: () => import('../views/MerchantAddToList.vue')
   },
   {
-    path: '/merchantaddtoproduct',
+    path: '/merchantaddtoproduct/:pname/:pcategory',
     name: 'merchantaddtoproduct',
     component: () => import('../views/MerchantAddToProduct.vue')
   },

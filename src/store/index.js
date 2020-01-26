@@ -10,7 +10,8 @@ export default new Vuex.Store({
     products: [],
     totalElements: 0,
     product: {},
-    searchResults: []
+    searchResults: [],
+    productsAdd: []
   },
   mutations: {
     GET_CATEGORIES(state, value){
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     },
     GET_SEARCHRESULTS(state, value) {
       state.searchResults = value
+    },
+    SET_PRODUCT(state, data) {
+      state.productsAdd = data
     }
   },
   actions: {
@@ -52,11 +56,10 @@ export default new Vuex.Store({
         commit('GET_PRODUCTS', res.data)
       })
     },
-    getSearchResult({commit} , {params} = {}) {
+    getSearchResult({commit}, {params} = {}) {
       Axios
       .get('http://172.16.20.110:8082/search/searchFunction/10/'+ params.pageNum +' /' + params.skey)
       .then(res => {
-        window.console.log(res.data.content)
         commit('GET_SEARCHRESULTS', res.data.content)
       })
     }
@@ -76,6 +79,9 @@ export default new Vuex.Store({
     },
     searchResultGetter(state) {
       return state.searchResults;
+    },
+    productsAdd (state) {
+      return state.productsAdd
     }
   },
   modules: {
