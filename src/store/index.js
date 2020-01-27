@@ -11,7 +11,10 @@ export default new Vuex.Store({
     totalElements: 0,
     product: {},
     searchResults: [],
-    categoryInfo: []
+    categoryInfo: [],
+    newProduct: [],
+    newProductCategory: '',
+    nameandcategory: []
   },
   mutations: {
     GET_CATEGORIES(state, value){
@@ -29,6 +32,12 @@ export default new Vuex.Store({
     },
     SET_CATEGORYINFO(state, data) {
       state.categoryInfo = data
+    },
+    SET_PRODUCTINFO(state, data) {
+      state.newProduct = data
+    },
+    SET_FROMFIRSTPAGE(state, data) {
+      state.nameandcategory = data
     }
   },
   actions: {
@@ -80,8 +89,14 @@ export default new Vuex.Store({
     searchResultGetter(state) {
       return state.searchResults;
     },
-    categoryInfo (state) {
+    categoryInfoGetter(state) {
       return state.categoryInfo
+    },
+    newProductGetter(state) {
+      return state.newProduct
+    },
+    fromFirstPageGetter(state) {
+      return state.nameandcategory
     }
   },
   modules: {

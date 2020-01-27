@@ -8,18 +8,15 @@
         <table>
           <tr>
             <td><span>Quantity of the product to add:</span></td>
-            <td><input type="text" name="quantity"></td>
+            <td><input type="text" name="quantity" v-model="quantity"></td>
           </tr><br>
           <tr>
             <td>Price:</td>
-            <td><input type="text" name="price" id="price"></td>
-          </tr>
-          <tr v-for="(attribute, index) in attributes" v-bind:key="index">
-            <td>{{ attribute[index] }}</td>
-            <td><input type="text" :name="attribute[index]" :id="attribute[index]"></td>
+            <td><input type="text" name="price" id="price" v-model="price"></td>
           </tr>
         </table><br>
-        <button class="myBtn">Add Product</button>
+        <button class="myBtn" @click="addProduct">Add Product</button>
+        <div class="success">{{ msg }}</div>
       </div>
     </div>
     
@@ -28,7 +25,7 @@
 </template>
 
 <script>
-  // const axios = require('axios').default;
+  const axios = require('axios').default;
   import { mapGetters } from 'vuex'
   import MerchantSideBar from '@/components/MerchantSideBar.vue'
   export default {
@@ -39,20 +36,37 @@
     data: function(){
       return {
         categoryInfo: [],
-        attributes: []
+        attributes: [],
+        productDTO: {},
+        merchantId: '1'
       }
     },
     computed: {
       ...mapGetters([
-        'categoryInfo',
-        ''
+        'fromFirstPageGetter',
+        'newProductGetter',  // imageURL, description
+        // this page: quantity, price, attributes
       ])
-    },
-    created() {
     },
     mounted() {
       this.attributes = this.categoryInfo.attributeList
       window.console.log(this.categoryInfo);
+    },
+    methods: {
+      addProduct() {
+        this.productDTO = {
+          productName: this.fromFirstPageGetter.product_name,
+          categoryId: this.fromFirstPageGetter.select_category,
+          defaultPrice: this.price,
+          imageURL: this.newProductGetter.imageURL,
+          description: this.newProductGetter.description,
+          totalStock: this.quantity,
+          defaultMerchantId: this.merchantId
+        }
+        window.console.log(this.productDTO);
+        axios.post('http://172.16.20.119:8091/product/product/product/', this.productDTO);
+        this.msg = 'Product added Successfully '
+      }
     }
   }
 </script>
@@ -80,5 +94,9 @@
   input[type="text"] {
     width: 140%;
     border-radius: 3px;
+  }
+  .success {
+    text-align: center;
+    color: green;
   }
 </style>

@@ -40,7 +40,6 @@
     },
     methods: {
       addQuantity() {
-        window.console.log('yo yo honey singh');
         axios.post(`http://172.16.20.119:8091/merchant/productListingController/increaseProductStock/${this.product_name}/${this.merchantId}/${this.product_quantity}`);
         this.msg = 'Quantity updated successfully';
       }

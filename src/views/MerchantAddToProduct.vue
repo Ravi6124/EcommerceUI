@@ -7,7 +7,7 @@
           <table>
           <tr>
             <td><span>Upload Image: </span></td>
-            <td><input type="text" name="image" v-bind="imageURL"></td>
+            <td><input type="text" name="image" v-model="imageURL"></td>
           </tr><br>
           <tr>
             <td><span>Description: </span></td>
@@ -25,32 +25,31 @@
 <script>
   import MerchantSideBar from '@/components/MerchantSideBar.vue'
   import { mapGetters } from 'vuex';
-  const axios = require('axios').default;
+  // const axios = require('axios').default;
   export default {
     name: 'MerchantAddToProduct',
     data: function() {
-      
-    },
-    computed: {
-      ...mapGetters(["categoriesGetter"]),
-      categories() {
-        return this.categoriesGetter;
+      return {
+        imageURL: '',
+        description: ''
       }
     },
     components: {
       MerchantSideBar
     },
-    created() {
-
+    computed: {
+      ...mapGetters([
+        'fromFirstPageGetter'
+      ])
     },
     methods: {
       addproduct() {
-        axios.get('http://172.16.20.119:8091/product/product/category') // re-check api link
-          .then(result => {
-            this.$store.commit('SET_PRODUCTINFO', ) // change this data
-            this.categories = result.data;
+        this.$store.commit('SET_PRODUCTINFO', {
+          imageURL: this.imageURL,
+          description: this.description
         })
-        // this.$router.push('/merchantaddtolist');
+        window.console.log(this.fromFirstPageGetter.product_name);
+        this.$router.push({name: 'merchantaddtolist', params: {pname: this.fromFirstPageGetter.product_name, pcategory: this.fromFirstPageGetter.select_category}});
       }
     }
   }

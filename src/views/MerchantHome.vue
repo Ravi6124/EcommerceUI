@@ -73,7 +73,8 @@
   }
   .left {
     width: 100px;
-    box-sizing: border-box;
+    margin-left: -20%;
+    /* box-sizing: border-box; */
   }
   .right {
     width: 500px;

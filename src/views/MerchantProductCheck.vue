@@ -48,13 +48,16 @@
       .then(result => {
         this.$store.commit('SET_CATEGORYINFO', result.data)
         this.categories = result.data;
+        window.console.log(this.categories);
       })
     },
     methods: {
       check() {
-        //window.console.log(this.product_name)
-        //window.console.log(this.select_category)
         let pname = this.product_name
+        this.$store.commit('SET_FROMFIRSTPAGE', {
+          select_category: this.select_category,
+          product_name: this.product_name
+        })
         let pcategory = this.select_category
         axios.get(`http://172.16.20.119:8091/product/product/present/${this.product_name}`)
         .then(result => {
@@ -64,7 +67,6 @@
           else
             this.$router.push({name: 'merchantaddtolist', params: {pname, pcategory}});
         })
-        //window.console.log(`${this.select_category}`);
       }
     }
   }
