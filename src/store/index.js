@@ -205,16 +205,16 @@ export default new Vuex.Store({
 
     
     googleAuth({commit}, {params, success}) {
-      window.console.log('params', params);
-      window.console.log('c', commit);
-      // let role = params.role
+      // window.console.log('params', params);
+      // window.console.log('c', commit);
+      let role = params.role
       auth.signInWithPopup(googleauthprovider)
       .then(res =>{
         window.console.log(res.credential.idToken)
         let idToken = res.credential.idToken
         var data = {
           accessToken: idToken,
-          role: 'customer',
+          role: role,
           guestId: localStorage.getItem('userId'),
           loginSource: 'google',
           type: 'web'

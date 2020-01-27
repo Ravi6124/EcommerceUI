@@ -42,15 +42,16 @@
       name: 'MerchantHome',
       data: function() {
         return {
-          products: [],
-          merchantId: "1"
+          products: []
+          // merchantId: "1"
         }
       },
       components: {
         MerchantSideBar
       },
       created() {
-        axios.get(`http://172.16.20.119:8091/merchant/merchant/displayMerchantProducts/${this.merchantId}`)
+        let mid = localStorage.getItem('userId')
+        axios.get('http://172.16.20.119:8091/merchant/merchant/displayMerchantProducts/' +mid)
         .then(result => {
           this.products = result.data;
           window.console.log(this.productsAdd)

@@ -43,9 +43,9 @@
       <a class="login" v-else-if="loginStatusGetter=='merchant'" href @click="logout">
         <span class="fas fa-sign-in-alt"></span>
         <div class="dropdown">
-          <button class="dropbtn">{{this.user}}</button>
+          <button class="dropbtn">{{this.merchant}}</button>
           <div class="dropdown-content">
-            <a href="/merchantprofile" @click="viewProfile">View Profile</a>
+            <!-- <a href="/merchantprofile" @click="viewProfile">View Profile</a> -->
             <a href="#" @click="logout">Logout</a>
             <!-- <a href="#">Link 3</a> -->
           </div>
@@ -56,8 +56,8 @@
 </template>
 
 <script>
-import { mapActions,mapGetters } from "vuex";
-import Axios from 'axios';
+import { mapActions, mapGetters } from "vuex";
+import Axios from "axios";
 //const axios = require("axios");
 export default {
   name: "Navbar",
@@ -66,7 +66,8 @@ export default {
       searchKey: "",
       pageSize: 10,
       pageNumber: 0,
-      user: localStorage.getItem('userEmail')
+      user: localStorage.getItem("userEmail"),
+      merchant: localStorage.getItem('userEmail')
     };
   },
   computed: {
@@ -83,21 +84,21 @@ export default {
     ...mapActions(["getSearchResult"]),
     logout() {
       // localStorage.clear();
-      localStorage.setItem('userRole','');
-      localStorage.setItem('userEmail','');
-      localStorage.setItem('userId','');
+      localStorage.setItem("userRole", "");
+      localStorage.setItem("userEmail", "");
+      localStorage.setItem("userId", "");
 
-      if (localStorage.getItem("userId") == '') {
-      Axios({
-        method: "post",
-        url: "http://172.16.20.119:8091/login/guest?type=web"
-      }).then(function(res) {
-        localStorage.setItem("userId", res.data.guestId);
-        localStorage.setItem("userRole", ""),
-          localStorage.setItem("userEmail", "");
-      });
-      this.$store.state.loginStatus = localStorage.getItem("userRole")
-    }
+      if (localStorage.getItem("userId") == "") {
+        Axios({
+          method: "post",
+          url: "http://172.16.20.119:8091/login/guest?type=web"
+        }).then(function(res) {
+          localStorage.setItem("userId", res.data.guestId);
+          localStorage.setItem("userRole", ""),
+            localStorage.setItem("userEmail", "");
+        });
+        this.$store.state.loginStatus = localStorage.getItem("userRole");
+      }
       // this.$store.state.loginStatus = localStorage.getItem('userRole');
       this.$router.push({ name: "userhome" });
     },
@@ -112,8 +113,8 @@ export default {
           pageNum: 0
         }
       });
-      window.console.log("My SKEY: "+ skey)
-      this.$router.push({ name: 'searchresult', params: { skey } });
+      window.console.log("My SKEY: " + skey);
+      this.$router.push({ name: "searchresult", params: { skey } });
       // this.$router.go(1)
 
       // axios.get(`http://172.16.20.110:8082/search/searchFunction/${this.pageSize}/${this.pageNumber}/${this.searchKey}`).then(
@@ -156,7 +157,7 @@ button:hover {
   justify-content: space-around;
   height: 40px;
   text-align: center;
-  margin-top: 10px; 
+  margin-top: 10px;
 }
 .login {
   font-size: 150%;
@@ -173,12 +174,9 @@ button:hover {
   padding-right: 10px;
 }
 
-
-
-
 .dropbtn {
   /* background-color: #4CAF50; */
-  color:rgb(63, 9, 63);
+  color: rgb(63, 9, 63);
   padding: 10px;
   font-size: 20px;
   border: none;
@@ -194,7 +192,7 @@ button:hover {
   position: absolute;
   background-color: white;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
@@ -205,10 +203,16 @@ button:hover {
   display: block;
 }
 
-.dropdown-content a:hover {background-color: rgba(63, 9, 63, 0.281);}
+.dropdown-content a:hover {
+  background-color: rgba(63, 9, 63, 0.281);
+}
 
-.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 
-.dropdown:hover .dropbtn {background-color: white;}
+.dropdown:hover .dropbtn {
+  background-color: white;
+}
 </style>
 
