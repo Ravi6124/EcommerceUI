@@ -21,7 +21,7 @@ export default {
     },
     mounted() {
       const axios = require('axios');
-      axios({ method: "GET", url: "http://localhost:3001/user" })
+      axios({ method: "GET", url: "http://172.16.20.119:8091/login/login/googlelogin" })
       .then(result => {
         this.info = result.data;
         window.console.log(this.info);

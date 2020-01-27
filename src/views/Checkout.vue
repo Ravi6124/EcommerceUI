@@ -2,8 +2,8 @@
   <main class="mainclass">
     <div class="checkout">
       <br><h3>Your order has been placed successfully.</h3><br>
-      <h5>Please take time to rate your shopping experience: </h5>
-      <div class="inner_checkout">
+      <!-- <h5>Please take time to rate your shopping experience: </h5> -->
+      <!-- <div class="inner_checkout">
         <div>
           <div><Rating id="p_rating" /></div>
           <div>Product Rating</div>
@@ -12,7 +12,7 @@
           <div><Rating id="m_rating" /></div>
           <div>Merchant Rating</div>
         </div>
-      </div><br>
+      </div><br> -->
       <div>
         <button class="myBtn" @click="continueShopping()">Continue Shopping!</button>
       </div>
@@ -21,12 +21,12 @@
 </template>
 
 <script>
-const axios = require('axios').default;
-import Rating from '@/components/Rating.vue'
+// const axios = require('axios').default;
+// import Rating from '@/components/Rating.vue'
 export default {
   name: "Checkout",
   components: {
-    Rating,
+    // Rating,
   },
   data: function() {
     return {
@@ -35,8 +35,8 @@ export default {
   },
   methods: {
     continueShopping() {
-      this.$router.push({name: '/'});
-      axios.post('')
+      this.$router.push({path: '/'});
+      // axios.post('')
     }
   }
 };

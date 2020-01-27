@@ -1,6 +1,6 @@
 <template>
   <main class="main">
-      Well, this is embarassing!! 
+      <p>Well, this is embarassing!!</p> 
   </main>
 </template>
 
@@ -11,7 +11,9 @@ export default {
 </script>
 
 <style scoped> 
-  .main {
-    text-align: center;
-  }
+  p{
+        text-align: center;
+        font-size: 20px;
+        text-decoration: bold;
+    }
 </style>

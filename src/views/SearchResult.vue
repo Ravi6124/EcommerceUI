@@ -21,14 +21,13 @@ import { mapGetters } from 'vuex'
 export default {
     name: "SearchResult",
     created() {
-        // eslint-disable-next-line no-debugger
-        // debugger
-        this.$store.dispatch("getSearchResult", {
-            params: {
-                skey: this.$route.params["skey"],
-                pageNum: 0 
-            }
-        })
+        window.console.log("My skeY from search: "+this.$route.params["skey"])
+        // this.$store.dispatch("getSearchResult", {
+        //     params: {
+        //         skey: this.$route.params["skey"],
+        //         pageNum: 0 
+        //     }
+        // })
     },
     computed: {
         ...mapGetters(["searchResultGetter"]),

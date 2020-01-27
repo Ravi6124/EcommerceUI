@@ -35,6 +35,7 @@
       <div class="buttons">
         <button class="myBtn" @click="checkout($event)">Buy Now</button>
       </div><br>
+      <div class="error">{{ errormsg }}</div>
     </div>
   </main>
 </template>
@@ -48,7 +49,8 @@ export default {
     return {
       items: [],
       disableBtn: false,
-      total: 0
+      total: 0,
+      errormsg: ''
     }
   },
   created() {
@@ -61,9 +63,12 @@ export default {
     });
   },
   computed: {
-    ...mapGetters(["cartGetter"]),
+    ...mapGetters(["cartGetter","loginStatusGetter"]),
     cart(){
       return this.cartGetter;
+    },
+    loginStatus() {
+      return this.loginStatusGetter;
     }
   },
   methods: {
@@ -74,7 +79,10 @@ export default {
     
     },
     decrement(item, index) {
-      if(this.items[index].quantity == 0)  return;
+      if(this.items[index].quantity == 0)  {
+        this.$router.go(0)
+        return;
+      }
       this.items[index].quantity--;
       this.total -= this.items[index].price;
       let data = {
@@ -94,7 +102,7 @@ export default {
       this.total += this.items[index].price;
       item.quantity = this.items[index].quantity;
 
-      // this.items[index].quantity=this.quantity;
+      this.items[index].quantity=1;
       let data = {
         userId: localStorage.getItem('userId'),
         cartProduct: this.items[index]
@@ -110,7 +118,8 @@ export default {
       }).then(function(res) {
         return res.json()
       }).then(res => {
-        window.console.log(res)
+        window.console.log(res),
+        this.$router.go(0)
         // commit('GET_ADDTOCART_RESPONSE', res)
         // success && success(res)
       })
@@ -122,15 +131,33 @@ export default {
     },
     checkout(e) {
       e.preventDefault();
-    //   const totalAmount = this.total;
-    //   const items = this.items;
-    //   const customerId = this.customerId;
-    //   const checkout_response = [];
-    //   const data = {
-    //     totalAmount,
-    //     items,
-    //     customerId
-    //   };
+      const totalAmount = this.total;
+      const items = this.items;
+      const customerId = localStorage.getItem('userId');
+      // const checkout_response = [];
+      const data = {
+        customerId: customerId,
+        totalAmount: totalAmount,
+        items: items
+      };
+
+      if(!this.loginStatusGetter){
+        this.errormsg = "You have to login to place an order"
+        return false;
+      }
+
+      axios.post('http://172.16.20.119:8091/cartandorder/order/place', data)
+      .then(res => {
+        window.console.log(res)
+        if(res.data.status==true){
+          this.$router.push({name: 'checkout'})
+        }else if(res.data.status==false){
+          //some logic here
+          alert('The following products have insufficient stock!');
+          window.console.log(res.data)
+          alert(res.data.unavailableStock);
+        }
+      })
     //   axios.get("http://localhost:3000/items")
     //     .then(result => {
     //       this.checkout_response = result.data;
@@ -216,5 +243,9 @@ export default {
     width: 30%;
     border-left: 1px solid grey;
     padding: 0 10px;
+  }
+  .error {
+    text-align: center;
+    color: red;
   }
 </style>

@@ -190,27 +190,10 @@ export default new Vuex.Store({
       })
     },
 
-
-
-    // googleAuth() {
-    //   firebase.auth().signInWithPopup(googleauthprovider).then(function (result) {
-    //     var token = result.credential.idToken;
-    //     var user = result.user;
-    //     window.console.log('token:'  + token + ' ,' + 'user: ' + user)
-    //     Axios.get('http://172.16.20.114:8080/googlelogin/' + token)
-    //       .then(res => {window.console.log(res)
-    //         localStorage.setItem('userId',res.data.userId)
-    //       localStorage.setItem('access',res.data.accessToken) });
-    //   }).catch(function (error) {
-    //     var errorCode = error.code;
-    //     var errorMessage = error.message;
-    //     var email = error.email;
-    //     var credential = error.credential;
-    //     window.console.log(errorCode + errorMessage + email + credential)
-    //   })
-    // },
     
-    googleAuth() {
+    googleAuth({commit}, {params, success}) {
+      window.console.log('params', params);
+      window.console.log('c', commit);
       // let role = params.role
       auth.signInWithPopup(googleauthprovider)
       .then(res =>{
@@ -223,82 +206,29 @@ export default new Vuex.Store({
           loginSource: 'google',
           type: 'web'
         }
-
+      window.console.log(data)
         Axios({
           method: 'post',
           url: 'http://172.16.20.119:8091/login/login/googlelogin', data
         })
         .then(res => {
-          window.console.log(res);
+          window.console.log(res)
+          commit('GET_LOGIN_RESPONSE', res.data)
+          success && success(res)
         })
       })
-      // var idToken = this.idToken
-      // window.console.log(this.idToken)
-
-      // var data = {
-      //   accessToken: this.idToken,
-      //   role: params.role,
-      //   guestId: localStorage.getItem('guestId'),
-      //   loginSource: 'google',
-      //   type: 'web'
-      // }
-      // window.console.log('this is access token'+ data.idToken);
-      // Axios({
-      //   method: 'post',
-      //   url: 'http://172.16.20.119:8091/login/login', data
-      // })
-      //   .then(function (result) {
-      //     var token = result.credential.accessToken;
-      //     var user = result.user;
-      //     window.console.log("token: " + token + " ," + "user: " + user)
-      //     //window.console.log(response)
-      //     commit('SET_TOKEN', result.token)
-      //     commit(result.user)
-      //     commit('SET_PLATFORM', 'GOOGLE')
-      //   }).catch(function (error) {
-      //     var errorCode = error.code;
-      //     var errorMessage = error.message;
-      //     var email = error.email;
-      //     var credential = error.credential;
-      //     window.console.log(errorCode + errorMessage + email + credential)
-      //   })
     },
 
 
-
-    // fbAuth() {
-    //   firebase.auth().signInWithPopup(fbProvider).then(function (result) {
-    //     window.console.log('inside fb auth')
-    //     var token = result.credential.accessToken;
-    //     var user = result.user;
-    //     window.console.log('token: ' + token + ' ,' + 'user: ' + user)
-    //     Axios.get('http://172.16.20.114:8080/facebooklogin/' + token)
-    //     .then(res => {
-    //       window.console.log(res)
-    //       localStorage.setItem('userId',res.data.userId)
-    //       localStorage.setItem('access',res.data.accessToken) });
-    //   }).catch(function (error) {
-    //     var errorCode = error.code;
-    //     var errorMessage = error.message;
-    //     var email = error.email;
-    //     var credential = error.credential;
-    //     window.console.log(errorCode + errorMessage + email + credential)
-    //   })
-    // },
-
-
-
-
-    fbAuth({commit} , {success}) {
+    fbAuth({commit} , {params, success}) {
+      let role = params.role
       auth.signInWithPopup(fbProvider)
       .then(res => {
         window.console.log(res);
-
-
         let accessToken = res.credential.accessToken
         var data = {
           accessToken: accessToken,
-          role: 'customer',
+          role: role,
           guestId: localStorage.getItem('userId'),
           loginSource: 'facebook',
           type: 'web'
@@ -313,62 +243,16 @@ export default new Vuex.Store({
           success && success(res)
         })
       })
-
-
-      // var data = {
-      //   'accessToken': this.token,
-      //   'platform': 'facebook',
-      //   'idToken': '',
-      //   'customerEmail': this.username,
-      //   'customerPassword': this.password,
-      // }
-      // Axios({
-      //   method: 'post',
-      //   url: '.....', data
-      // })
-      //   .then(function (result) {
-      //     var token = result.credential.accessToken;
-      //     var user = result.user;
-      //     //window.console.log(response)
-      //     window.console.log("token: " + token + " ," + "user: " + user)
-      //     commit('SET_TOKEN', result.token)
-      //     commit(result.user)
-      //     commit('SET_PLATFORM', 'FACEBOOK')
-      //   }).catch(function (error) {
-      //     var errorCode = error.code;
-      //     var errorMessage = error.message;
-      //     var email = error.email;
-      //     var credential = error.credential;
-      //     window.console.log(errorCode + errorMessage + email + credential)
-      //   })
     },
 
 
-    // getProductsByCategory({commit}, {params} = {}){
-    //   // window.console.log("PageNumber:", params.pageNum);
-    //   Axios
-    //   .get('http://172.16.20.119:8082/productapi/product/category/' + params.cid + '/' + params.pageNum + '/3')
-    //   .then(res => {
-    //     window.console.log(res),
-    //     commit('GET_PRODUCTSBYCATEGORY', res.data)
-    //   })
-    // },
-    // getProductDetails({commit}, {params} = {}){
-    //   Axios
-    //   .get('http://172.16.20.119:8082/productapi/product/' + params.pid)
-    //   .then(res => {
-    //     // window.console.log(res.data),
-    //     commit('GET_PRODUCTS', res.data)
-    //   })
-    // },
-
-
-    getSearchResult({commit} , {params} = {}) {
+    getSearchResult({commit} , {params}) {
       Axios
       .get('http://172.16.20.110:8082/search/searchFunction/10/'+ params.pageNum +' /' + params.skey)
       .then(res => {
-        window.console.log(res.data.content)
+        window.console.log("My print in get"+res.data.content)
         commit('GET_SEARCHRESULTS', res.data.content)
+        // success && success(res)
       })
     }
   },
@@ -388,9 +272,6 @@ export default new Vuex.Store({
     merchantsGetter(state) {
       return state.merchants;
     },
-    // guestIdGetter(state) {
-    //   return state.guestId;
-    // },
     signupResponseGetter(state) {
       return state.signupResponse;
     },

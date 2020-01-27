@@ -196,7 +196,7 @@ window.console.log('cid inside pd: '+cid)
   transition: transform 0.8s;
 }
 /* .category__image:hover{
-  transform: scale(1.5);
+  transform: scale(1.25);
 } */
 .category__image > img {
   height: 100%;

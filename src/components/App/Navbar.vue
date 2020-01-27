@@ -33,9 +33,9 @@
         <div class="dropdown">
           <button class="dropbtn">{{this.user}}</button>
           <div class="dropdown-content">
-            <a href="/userprofile" @click="viewProfile">View Profile</a>
+            <!-- <a href="/userprofile" @click="viewProfile">View Profile</a> -->
+            <a href="/userorderdetails">View orders</a>
             <a href="#" @click="logout">Logout</a>
-            <!-- <a href="#">Link 3</a> -->
           </div>
         </div>
         <!-- <span class="fas fa-sign-in-alt"></span> Logout -->
@@ -56,7 +56,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions,mapGetters } from "vuex";
+import Axios from 'axios';
 //const axios = require("axios");
 export default {
   name: "Navbar",
@@ -85,7 +86,19 @@ export default {
       localStorage.setItem('userRole','');
       localStorage.setItem('userEmail','');
       localStorage.setItem('userId','');
-      this.$store.state.loginStatus = localStorage.getItem('userRole');
+
+      if (localStorage.getItem("userId") == '') {
+      Axios({
+        method: "post",
+        url: "http://172.16.20.119:8091/login/guest?type=web"
+      }).then(function(res) {
+        localStorage.setItem("userId", res.data.guestId);
+        localStorage.setItem("userRole", ""),
+          localStorage.setItem("userEmail", "");
+      });
+      this.$store.state.loginStatus = localStorage.getItem("userRole")
+    }
+      // this.$store.state.loginStatus = localStorage.getItem('userRole');
       this.$router.push({ name: "userhome" });
     },
     search() {
@@ -99,7 +112,9 @@ export default {
           pageNum: 0
         }
       });
-      this.$router.push({ name: "searchresult", params: { skey } });
+      window.console.log("My SKEY: "+ skey)
+      this.$router.push({ name: 'searchresult', params: { skey } });
+      // this.$router.go(1)
 
       // axios.get(`http://172.16.20.110:8082/search/searchFunction/${this.pageSize}/${this.pageNumber}/${this.searchKey}`).then(
       //   result => {

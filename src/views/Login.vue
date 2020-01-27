@@ -58,7 +58,7 @@ export default {
       //window.console.log("IN");
       // this.loginSource= 'google';
       if(!(this.role)){
-          this.msg = "Please select customer";
+          this.msg = "Please select a role";
           return false;
         }
       this.$store.dispatch("googleAuth",{
@@ -72,10 +72,13 @@ export default {
         // this.loginSource = 'facebook';
         // window.console.log(this.$store)
         if(!(this.role)){
-          this.msg = "Please select customer";
+          this.msg = "Please select a role";
           return false;
         }
         this.$store.dispatch("fbAuth",{
+          params: {
+            role: this.role
+          },
           success: this.loginSuccess
         });
       },
@@ -91,7 +94,11 @@ export default {
           //if merchant is logged in redirect to merchant home
           this.$store.state.loginStatus = localStorage.getItem('userRole');
           //this.$router.push({name : 'userhome'})
+          if(this.role=='customer'){
           this.$router.go(-1);
+          } else {
+            this.$router.push({name: 'merchanthome'})
+          }
         }
       },
       login() {

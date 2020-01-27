@@ -38,7 +38,8 @@
       </div>
       <!-- <input type="submit" class="myBtn" :class="{'disabled': disableBtn}" @click.prevent="postUserData()"> -->
       <button class="myBtn" @click.prevent="postUserData()">SignUp</button>
-      <br /><br>
+      <br />
+      <br />
       <a href="/login">Login</a>
       <br />
     </form>
@@ -49,7 +50,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 // const axios = require('axios');
 export default {
   name: "SignUp",
@@ -68,10 +69,23 @@ export default {
   computed: {
     ...mapGetters(["signupResponseGetter"]),
     signupRes() {
-      return this.signupResponseGetter
+      return this.signupResponseGetter;
     }
   },
   methods: {
+    ValidateEmail(inputText) {
+      var mailformat = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/;
+      window.console.log(inputText.match(mailformat));
+      if (inputText.match(mailformat)) {
+     // if (mailformat.match(inputText.value)) {
+       this.error = "";
+        return true;
+      } else {
+        this.error = "Enter proper email"
+        // window.console.log('Enter proper email')
+        return false;
+      }
+    },
     postUserData() {
       if (
         this.password == "" ||
@@ -83,6 +97,17 @@ export default {
         this.created = "";
         return false;
       }
+
+      this.ValidateEmail(this.email);
+
+      if(this.error==""){
+        return true
+      }else if(this.error=="Enter proper email"){
+        
+        return false;
+      }
+
+
       // if(!this.validEmail(this.email)){
       //   this.error = 'Email is not valid'
       //   this.created = ''
@@ -102,19 +127,19 @@ export default {
         emailAddress: email,
         password: password,
         role: userType,
-        guestId: localStorage.getItem('guestId')
+        guestId: localStorage.getItem("guestId")
       };
 
-      this.$store.dispatch('signup',{
+      this.$store.dispatch("signup", {
         params: {
           data: data
         }
       });
 
-      if(this.signupRes.statusCode == 1000){
-        this.$router.push({name: 'login'})
-      }else if(this.signupRes.statusCode == 800){
-        this.error = this.signupRes.message
+      if (this.signupRes.statusCode == 1000) {
+        this.$router.push({ name: "login" });
+      } else if (this.signupRes.statusCode == 800) {
+        this.error = this.signupRes.message;
       }
     }
     // validEmail: function (email) {
@@ -122,61 +147,62 @@ export default {
     //   return re.test(email);
     // }
   }
-}
+};
 </script>
 
 <style scoped>
-  label {
-    padding-right: 25px;
-    padding-left: 0px;
-    cursor: pointer;
-  }
-  body {
-    margin: 0%;
-    padding: 0%;
-    background-repeat: no-repeat;
-    background-size: 100%;
-  }
-  h1 {
-    text-align: center;
-  }
-  input[type="email"], input[type="password"] {
-   width: 100%; 
-   height: 25px;
-  }
-  form {
-    text-align: center;
-    position: relative;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding-bottom: 30px;
-    padding-top: 30px;
-    margin-top: 0%;
-    margin-bottom: 1%;
-    margin-right: 35%;
-    margin-left: 35%;
-    background-color:palegoldenrod;
-    background:rgba(255,255,255,0.5);
-  }
-  .form_usertype {
-    display: flex;
-    justify-content: space-between;
-  }
-  .form-input {
-    width: 70%;
-    margin: 0 auto;
-    text-align: left;
-  }
-  .label-text {
-    font-weight: bold;
-  }
-  .created {
-    text-align: center;
-    color: darkgreen;
-  }
-  .error {
-    text-align: center;
-    color: red;
-  }
+label {
+  padding-right: 25px;
+  padding-left: 0px;
+  cursor: pointer;
+}
+body {
+  margin: 0%;
+  padding: 0%;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+h1 {
+  text-align: center;
+}
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  height: 25px;
+}
+form {
+  text-align: center;
+  position: relative;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding-bottom: 30px;
+  padding-top: 30px;
+  margin-top: 0%;
+  margin-bottom: 1%;
+  margin-right: 35%;
+  margin-left: 35%;
+  background-color: palegoldenrod;
+  background: rgba(255, 255, 255, 0.5);
+}
+.form_usertype {
+  display: flex;
+  justify-content: space-between;
+}
+.form-input {
+  width: 70%;
+  margin: 0 auto;
+  text-align: left;
+}
+.label-text {
+  font-weight: bold;
+}
+.created {
+  text-align: center;
+  color: darkgreen;
+}
+.error {
+  text-align: center;
+  color: red;
+}
 </style>
 
