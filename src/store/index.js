@@ -34,6 +34,7 @@ export default new Vuex.Store({
       state.categoryInfo = data
     },
     SET_PRODUCTINFO(state, data) {
+      window.console.log('test commit', data)
       state.newProduct = data
     },
     SET_FROMFIRSTPAGE(state, data) {
@@ -93,6 +94,7 @@ export default new Vuex.Store({
       return state.categoryInfo
     },
     newProductGetter(state) {
+      window.console.log("yo oy ",state.newProduct)
       return state.newProduct
     },
     fromFirstPageGetter(state) {

@@ -25,13 +25,15 @@
 <script>
   import MerchantSideBar from '@/components/MerchantSideBar.vue'
   import { mapGetters } from 'vuex';
-  // const axios = require('axios').default;
+  const axios = require('axios').default;
   export default {
     name: 'MerchantAddToProduct',
     data: function() {
       return {
         imageURL: '',
-        description: ''
+        description: '',
+        productDTO: {},
+        pid: ''
       }
     },
     components: {
@@ -39,17 +41,29 @@
     },
     computed: {
       ...mapGetters([
-        'fromFirstPageGetter'
+        'fromFirstPageGetter' // product_name , select_category
       ])
     },
     methods: {
       addproduct() {
-        this.$store.commit('SET_PRODUCTINFO', {
+        this.productDTO = {
           imageURL: this.imageURL,
-          description: this.description
+          description: this.description,
+          productName: this.fromFirstPageGetter.product_name,
+          categoryId: this.fromFirstPageGetter.select_category
+        }
+        axios.post('http://172.16.20.119:8091/product/product/product/', this.productDTO).then(res => {
+          window.console.log('res datdadad', res.data)
+          // vm.pid = res.data
+          this.$store.commit('SET_PRODUCTINFO', {
+          imageURL: this.imageURL,
+          description: this.description,
+          pid: res.data
         })
-        window.console.log(this.fromFirstPageGetter.product_name);
         this.$router.push({name: 'merchantaddtolist', params: {pname: this.fromFirstPageGetter.product_name, pcategory: this.fromFirstPageGetter.select_category}});
+        });
+        window.console.log('pid', this.pid)
+        
       }
     }
   }

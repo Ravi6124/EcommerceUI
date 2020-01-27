@@ -13,7 +13,19 @@
           <tr>
             <td>Price:</td>
             <td><input type="text" name="price" id="price" v-model="price"></td>
-          </tr>
+          </tr><br>
+          <tr>
+            <td>Color:</td>
+            <td><input type="text" name="color" v-model="color"></td>
+          </tr><br>
+          <tr>
+            <td>Theme:</td>
+            <td><input type="text" name="theme" v-model="theme"></td>
+          </tr><br>
+          <tr>
+            <td>Size:</td>
+            <td><input type="text" name="size" v-model="size"></td>
+          </tr><br>
         </table><br>
         <button class="myBtn" @click="addProduct">Add Product</button>
         <div class="success">{{ msg }}</div>
@@ -55,17 +67,22 @@
     methods: {
       addProduct() {
         this.productDTO = {
+          productId: this.newProductGetter.pid,
           productName: this.fromFirstPageGetter.product_name,
           categoryId: this.fromFirstPageGetter.select_category,
-          defaultPrice: this.price,
+          price: parseInt(this.price),
           imageURL: this.newProductGetter.imageURL,
           description: this.newProductGetter.description,
-          totalStock: this.quantity,
-          defaultMerchantId: this.merchantId
+          quantity: this.quantity,
+          merchantId: this.merchantId,
+          color: this.color,
+          theme: this.theme,
+          size: this.size
         }
-        window.console.log(this.productDTO);
-        axios.post('http://172.16.20.119:8091/product/product/product/', this.productDTO);
-        this.msg = 'Product added Successfully '
+        // eslint-disable-next-line no-debugger
+        // debugger
+        axios.post('http://172.16.20.119:8091/merchant/productListingController/addProductListing/', this.productDTO);
+        this.msg = 'Product added Successfully '        
       }
     }
   }
