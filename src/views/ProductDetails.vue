@@ -79,7 +79,7 @@ export default {
       productId: "",
       productName: "",
       imageURL: "",
-      merchantId: "",
+      merchantId: localStorage.getItem('userId'),
       quantity: 1,
       price: 0,
       radioSelecter: false,

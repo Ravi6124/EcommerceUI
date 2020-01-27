@@ -34,7 +34,7 @@
       return {
         product_name: '',
         product_quantity: this.product_quantity,
-        merchantId: '1',
+        merchantId: localStorage.getItem('userId'),
         msg: ''
       }
     },

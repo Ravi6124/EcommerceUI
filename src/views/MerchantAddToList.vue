@@ -38,7 +38,7 @@
         categoryInfo: [],
         attributes: [],
         productDTO: {},
-        merchantId: '1'
+        merchantId: localStorage.getItem('userId')
       }
     },
     computed: {
