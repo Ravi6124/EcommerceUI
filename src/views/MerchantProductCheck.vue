@@ -6,20 +6,20 @@
           <table>
             <tr>
               <td><span>Enter product name: </span></td>
-              <td><input type="text" name="name"></td>
+              <td><input type="text" name="name" v-model="product_name" /></td>
             </tr><br>
             <tr>
               <td><span>Enter the category of the product: </span></td>
               <td>
-                <select name="category" id="category">
+                <select name="select_category" id="category" v-model="select_category">
                   <option v-for="category in categories" v-bind:key="category" @value="category.name" @name="category.name">
                     {{ category.name }}
                   </option>
                 </select>
               </td>
             </tr>
-          </table><br>
-          <button class="myBtn" name="submit">Add Product</button>
+          </table><br><br>
+          <button class="myBtn" name="submit" @click="check">Add Product</button>
         </div>
       </div>
 
@@ -31,24 +31,44 @@
   import MerchantSideBar from '@/components/MerchantSideBar.vue'
   const axios = require('axios').default;
   export default {
-      name: 'MerchantProductCheck',
-      components: {
-        MerchantSideBar
-      },
-      data: function(){
-        return {
-          categories: []
-        }
-      },
-      created() {
-        axios.get('http://172.16.20.119:8091/product/product/category')
-        .then(result => {
-          window.console.log(result.data)
-          this.categories = result.data;
-        })
-      },
-      methods: {
+    name: 'MerchantProductCheck',
+    components: {
+      MerchantSideBar
+    },
+    data: function(){
+      return {
+        categories: [],
+        productId: '',
+        product_name: '',
+        select_category: ''
       }
+    },
+    created() {
+      axios.get('http://172.16.20.119:8091/product/product/category')
+      .then(result => {
+        this.$store.commit('SET_CATEGORYINFO', result.data)
+        this.categories = result.data;
+        window.console.log(this.categories);
+      })
+    },
+    methods: {
+      check() {
+        let pname = this.product_name
+        this.$store.commit('SET_FROMFIRSTPAGE', {
+          select_category: this.select_category,
+          product_name: this.product_name
+        })
+        let pcategory = this.select_category
+        axios.get(`http://172.16.20.119:8091/product/product/present/${this.product_name}`)
+        .then(result => {
+          this.productId = result.data;
+          if (String(this.productId) == "#")
+            this.$router.push({ name: 'merchantaddtoproduct', params: {pname, pcategory}});
+          else
+            this.$router.push({name: 'merchantaddtolist', params: {pname, pcategory}});
+        })
+      }
+    }
   }
 </script>
 
@@ -65,5 +85,11 @@
   input[type="text"] {
     width: 200px;
     border-radius: 4px;
+  }
+  .container {
+    margin-left: 25%;
+  }
+  button {
+    margin-left: 17.5%;
   }
 </style>

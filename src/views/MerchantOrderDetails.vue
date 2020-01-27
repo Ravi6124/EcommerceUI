@@ -1,9 +1,12 @@
 <template>
   <main class="merchantorderdetails">
       <div class="main">
-        <h1>Order History</h1>
+        <h1>Order History</h1><hr>
+        <div class="container">
+          
+        </div>
       </div>
-
+      
       <MerchantSideBar />
   </main>
 </template>

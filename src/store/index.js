@@ -24,7 +24,11 @@ export default new Vuex.Store({
     addToCartResponse: {},
     cart: [],
     searchResults: [],
-    loginStatus: ''
+    loginStatus: '',
+    categoryInfo: [],
+    newProduct: [],
+    newProductCategory: '',
+    nameandcategory: []
   },
   mutations: {
     GET_CATEGORIES(state, value){
@@ -64,6 +68,15 @@ export default new Vuex.Store({
     },
     SET_TOKEN(state, value) {
       state.idToken = value
+    },
+    SET_CATEGORYINFO(state, data) {
+      state.categoryInfo = data
+    },
+    SET_PRODUCTINFO(state, data) {
+      state.newProduct = data
+    },
+    SET_FROMFIRSTPAGE(state, data) {
+      state.nameandcategory = data
     }
   },
   actions: {
@@ -289,6 +302,15 @@ export default new Vuex.Store({
     },
     loginStatusGetter(state) {
       return state.loginStatus
+    },
+    categoryInfoGetter(state) {
+      return state.categoryInfo
+    },
+    newProductGetter(state) {
+      return state.newProduct
+    },
+    fromFirstPageGetter(state) {
+      return state.nameandcategory
     }
   },
   modules: {

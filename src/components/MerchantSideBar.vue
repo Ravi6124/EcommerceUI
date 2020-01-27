@@ -1,10 +1,10 @@
 <template>
-    <div class="sidenav">
-      <router-link class="home" to="/merchanthome">Home</router-link><br><!-- View -->
-      <router-link class="check" to="/merchantproductcheck">Add Product</router-link><br>
-      <router-link class="update" to="/merchantupdateproduct">Update Product Details</router-link><br>
-      <router-link class="details" to="/merchantorderdetails">Order History</router-link>
-    </div>
+  <div class="sidenav">
+    <router-link class="home" to="/merchanthome">Home</router-link><br> <!-- View -->
+    <router-link class="check" to="/merchantproductcheck">Add Product</router-link><br>
+    <router-link class="update" to="/merchantupdateproduct">Update Product Details</router-link><br>
+    <router-link class="details" to="/merchantorderdetails">Order History</router-link>
+  </div>
 </template>
 
 <script>
