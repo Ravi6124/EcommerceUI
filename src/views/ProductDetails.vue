@@ -195,9 +195,9 @@ window.console.log('cid inside pd: '+cid)
   width: 500px;
   transition: transform 0.8s;
 }
-/* .category__image:hover{
+.category__image:hover{
   transform: scale(1.25);
-} */
+}
 .category__image > img {
   height: 100%;
   width: 100%;

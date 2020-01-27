@@ -54,7 +54,6 @@ export default {
     }
   },
   created() {
-    //window.console.log(this.$route.params["cid"])
     this.$store.dispatch('getCartOfCustomer',{
       params: {
         cid: localStorage.getItem('userId')
@@ -73,7 +72,6 @@ export default {
   },
   methods: {
     getCartDetailsSuccess () {
-      //window.console.log("inside success")
       this.total = this.cart.totalAmount;
       this.items = this.cart.items;
     
@@ -90,7 +88,6 @@ export default {
           productId: item.productId
       }
       window.console.log(data);
-      // window.console.log(this.$route.params["cid"], item.productId);
       axios.post('http://172.16.20.119:8091/cartandorder/cart/reduceitem', data)
       .then(res => {
           window.console.log("res: ", res);
@@ -120,14 +117,7 @@ export default {
       }).then(res => {
         window.console.log(res),
         this.$router.go(0)
-        // commit('GET_ADDTOCART_RESPONSE', res)
-        // success && success(res)
       })
-      // axios.post('http://172.16.20.119:8091/cartandorder/cart/item', data)
-      //   .then(res => {
-      //     window.console.log("res: ", res);
-      //     return res;
-      //   });
     },
     checkout(e) {
       e.preventDefault();
@@ -155,7 +145,7 @@ export default {
           //some logic here
           alert('The following products have insufficient stock!');
           window.console.log(res.data)
-          alert(res.data.unavailableStock);
+          // alert(res.data.unavailableStock);
         }
       })
     //   axios.get("http://localhost:3000/items")
