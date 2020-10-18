@@ -19,6 +19,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Cart.vue')
   },
   {
+    path: '/loginhistory',
+    name: 'loginhistory',
+    component: () => import('../views/LoginHistory.vue')
+  },
+  {
     path: '/category',
     name: 'category',
     component: () => import('../views/Category.vue')
@@ -34,12 +39,12 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
-    path: '/merchantaddtolist',
+    path: '/merchantaddtolist/:pname/:pcategory',
     name: 'merchantaddtolist',
     component: () => import('../views/MerchantAddToList.vue')
   },
   {
-    path: '/merchantaddtoproduct',
+    path: '/merchantaddtoproduct/:pname/:pcategory',
     name: 'merchantaddtoproduct',
     component: () => import('../views/MerchantAddToProduct.vue')
   },
@@ -97,6 +102,16 @@ const routes = [
     path: '*',
     name: 'error',
     component: () => import('../views/Error.vue')
+  },
+  {
+    path: '/forgot',
+    name: 'forgot',
+    component: () => import('../views/happ.vue')
+  },
+  {
+    path: '/searchresult/:skey',
+    name: 'searchresult',
+    component: () => import('../views/SearchResult.vue')
   }
 ]
 
